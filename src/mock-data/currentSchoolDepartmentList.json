@@ -1,0 +1,550 @@
+[
+  {
+    "id": "2213",
+    "name": "University Counsel"
+  },
+  {
+    "id": "2235",
+    "name": "Accounting Services"
+  },
+  {
+    "id": "2254",
+    "name": "Internal Audit"
+  },
+  {
+    "id": "2264",
+    "name": "Research Computing Center"
+  },
+  {
+    "id": "2265",
+    "name": "Enterprise Resource Planning"
+  },
+  {
+    "id": "2426",
+    "name": "Campus Health Services"
+  },
+  {
+    "id": "2427",
+    "name": "Campus Health Sports Med Pgm"
+  },
+  {
+    "id": "2429",
+    "name": "Campus Health CWS"
+  },
+  {
+    "id": "3103",
+    "name": "Information Technology Services"
+  },
+  {
+    "id": "3258",
+    "name": "Psychology"
+  },
+  {
+    "id": "3908",
+    "name": "Clinical Trials"
+  },
+  {
+    "id": "4190",
+    "name": "Unc PA Receipt Refund Clrng"
+  },
+  {
+    "id": "4191",
+    "name": "Unc PA Undesignated Receipts"
+  },
+  {
+    "id": "4192",
+    "name": "Unc PA Managed Care"
+  },
+  {
+    "id": "4201",
+    "name": "School of Medicine Admin"
+  },
+  {
+    "id": "4202",
+    "name": "Ctr for Women's Hlth Research"
+  },
+  {
+    "id": "4203",
+    "name": "Office of Info Systems"
+  },
+  {
+    "id": "4204",
+    "name": "Cell & Development Biology"
+  },
+  {
+    "id": "4205",
+    "name": "Ctr Maternal & Infant Health"
+  },
+  {
+    "id": "4206",
+    "name": "Carolina Vaccine Institute"
+  },
+  {
+    "id": "4207",
+    "name": "Univ Cancer Research Fund"
+  },
+  {
+    "id": "4208",
+    "name": "Microbiology & Immunology"
+  },
+  {
+    "id": "4209",
+    "name": "Ctr for Drug Safety Science"
+  },
+  {
+    "id": "4210",
+    "name": "Toxicology Curriculum"
+  },
+  {
+    "id": "4211",
+    "name": "P&A Administration"
+  },
+  {
+    "id": "4212",
+    "name": "Biochemistry and Biophysics"
+  },
+  {
+    "id": "4213",
+    "name": "Regional Services"
+  },
+  {
+    "id": "4216",
+    "name": "Pathology & Lab Medicine"
+  },
+  {
+    "id": "4217",
+    "name": "Biomedical Res Imaging Ctr"
+  },
+  {
+    "id": "4218",
+    "name": "Genetics"
+  },
+  {
+    "id": "4219",
+    "name": "Carolina Ctr for Genome Sci"
+  },
+  {
+    "id": "4220",
+    "name": "Pharmacology"
+  },
+  {
+    "id": "4222",
+    "name": "Heart and Vascular Center"
+  },
+  {
+    "id": "4223",
+    "name": "Cys Fibrosis/Pulmonary Res"
+  },
+  {
+    "id": "4224",
+    "name": "Cell & Molecular Physiology"
+  },
+  {
+    "id": "4225",
+    "name": "Enviro Med Asthma & Lung Bio"
+  },
+  {
+    "id": "4226",
+    "name": "Comprehensive Cancer Center"
+  },
+  {
+    "id": "4227",
+    "name": "UNC McAllister Heart Institute"
+  },
+  {
+    "id": "4228",
+    "name": "Medicine"
+  },
+  {
+    "id": "4229",
+    "name": "Dermatology"
+  },
+  {
+    "id": "4230",
+    "name": "Neurology"
+  },
+  {
+    "id": "4231",
+    "name": "Diabetes Ctr for Excellence"
+  },
+  {
+    "id": "4232",
+    "name": "Family Medicine"
+  },
+  {
+    "id": "4233",
+    "name": "Neurosurgery"
+  },
+  {
+    "id": "4236",
+    "name": "Obstetrics and Gynecology"
+  },
+  {
+    "id": "4238",
+    "name": "Otolaryngology (Ent)"
+  },
+  {
+    "id": "4244",
+    "name": "Ophthalmology"
+  },
+  {
+    "id": "4248",
+    "name": "Pediatrics"
+  },
+  {
+    "id": "4251",
+    "name": "Nutrition (State Funds)"
+  },
+  {
+    "id": "4256",
+    "name": "Psychiatry"
+  },
+  {
+    "id": "4257",
+    "name": "TEACCH Div"
+  },
+  {
+    "id": "4260",
+    "name": "Radiology"
+  },
+  {
+    "id": "4262",
+    "name": "Radiation Oncology"
+  },
+  {
+    "id": "4264",
+    "name": "Surgery"
+  },
+  {
+    "id": "4265",
+    "name": "Orthopaedics"
+  },
+  {
+    "id": "4266",
+    "name": "Emergency Medicine"
+  },
+  {
+    "id": "4268",
+    "name": "Anesthesiology"
+  },
+  {
+    "id": "4269",
+    "name": "UNC Kidney Center"
+  },
+  {
+    "id": "4270",
+    "name": "Laboratory Animal Medicine"
+  },
+  {
+    "id": "4272",
+    "name": "Continuing Medical Education"
+  },
+  {
+    "id": "4273",
+    "name": "Allied Health Sciences"
+  },
+  {
+    "id": "4274",
+    "name": "Hiv Stds Infect Disease Ctr"
+  },
+  {
+    "id": "4275",
+    "name": "Biomedical Engineering"
+  },
+  {
+    "id": "4276",
+    "name": "Gene Therapy Center"
+  },
+  {
+    "id": "4277",
+    "name": "Molecular Biology"
+  },
+  {
+    "id": "4278",
+    "name": "Center for Aging and Health"
+  },
+  {
+    "id": "4279",
+    "name": "Neurodev Disorders Res Ctr"
+  },
+  {
+    "id": "4281",
+    "name": "Neuroscience Center"
+  },
+  {
+    "id": "4282",
+    "name": "Alcohol Studies Center"
+  },
+  {
+    "id": "4283",
+    "name": "Gastroint Biology & Dis Ctr"
+  },
+  {
+    "id": "4284",
+    "name": "Medical Education"
+  },
+  {
+    "id": "4285",
+    "name": "Thurston Arthritis Res Center"
+  },
+  {
+    "id": "4286",
+    "name": "Genetics Curriculum"
+  },
+  {
+    "id": "4287",
+    "name": "Carolina Institute for DD"
+  },
+  {
+    "id": "4290",
+    "name": "Social Medicine"
+  },
+  {
+    "id": "4291",
+    "name": "Clinical Research"
+  },
+  {
+    "id": "4293",
+    "name": "Educational Develop Office"
+  },
+  {
+    "id": "4295",
+    "name": "Com Med Ed/Family Supp Network"
+  },
+  {
+    "id": "4296",
+    "name": "Physical Medicine & Rehab"
+  },
+  {
+    "id": "4297",
+    "name": "Spec Teach Prog-Med Stu"
+  },
+  {
+    "id": "4299",
+    "name": "TraCS Institute"
+  },
+  {
+    "id": "4301",
+    "name": "School of Dentistry"
+  },
+  {
+    "id": "4305",
+    "name": "Dental Ecology Dept"
+  },
+  {
+    "id": "4310",
+    "name": "Dentistry-Gen Academic Instr"
+  },
+  {
+    "id": "4315",
+    "name": "Clinical Affairs"
+  },
+  {
+    "id": "4320",
+    "name": "Endodontics"
+  },
+  {
+    "id": "4325",
+    "name": "Fixed Prosthodontics"
+  },
+  {
+    "id": "4330",
+    "name": "Operative Dentistry"
+  },
+  {
+    "id": "4335",
+    "name": "Diagnostic Sci & Gen Dentistry"
+  },
+  {
+    "id": "4340",
+    "name": "Oral Surgery"
+  },
+  {
+    "id": "4345",
+    "name": "Orthodontics"
+  },
+  {
+    "id": "4350",
+    "name": "Pediatric Dentistry"
+  },
+  {
+    "id": "4355",
+    "name": "Periodontology"
+  },
+  {
+    "id": "4365",
+    "name": "Prosthodontics"
+  },
+  {
+    "id": "4375",
+    "name": "Dental Research"
+  },
+  {
+    "id": "4401",
+    "name": "School of Nursing"
+  },
+  {
+    "id": "4501",
+    "name": "School of Pharmacy"
+  },
+  {
+    "id": "4635",
+    "name": "Epidemiology"
+  },
+  {
+    "id": "4800",
+    "name": "AHEC"
+  },
+  {
+    "id": "4829",
+    "name": "AHEC Support-Radiology"
+  },
+  {
+    "id": "4830",
+    "name": "AHEC Support-Surgery"
+  },
+  {
+    "id": "4831",
+    "name": "AHEC Support-Dentistry"
+  },
+  {
+    "id": "4832",
+    "name": "AHEC Support-Nursing"
+  },
+  {
+    "id": "4833",
+    "name": "AHEC Support-Pharmacy"
+  },
+  {
+    "id": "4834",
+    "name": "AHEC Support-Public Health"
+  },
+  {
+    "id": "4835",
+    "name": "AHEC Support-Comm Med Care"
+  },
+  {
+    "id": "4836",
+    "name": "AHEC Support-Medicine"
+  },
+  {
+    "id": "4837",
+    "name": "AHEC Support-Obgyn"
+  },
+  {
+    "id": "4838",
+    "name": "AHEC Support-Pediatrics"
+  },
+  {
+    "id": "4839",
+    "name": "AHEC Support-Allied Health"
+  },
+  {
+    "id": "4840",
+    "name": "AHEC Hlth Serv Res Ctr"
+  },
+  {
+    "id": "4841",
+    "name": "AHEC Support - Comm Med Ed"
+  },
+  {
+    "id": "4842",
+    "name": "AHEC Support-Dermatology"
+  },
+  {
+    "id": "4843",
+    "name": "AHEC Support-Psychiatry"
+  },
+  {
+    "id": "4844",
+    "name": "AHEC Support-Family Medicine"
+  },
+  {
+    "id": "4845",
+    "name": "AHEC Support-Neurology"
+  },
+  {
+    "id": "4847",
+    "name": "AHEC-Hlth Sciences Library"
+  },
+  {
+    "id": "4848",
+    "name": "AHEC Support-Social-Admin Med"
+  },
+  {
+    "id": "4849",
+    "name": "AHEC Support-Anesthesiology"
+  },
+  {
+    "id": "4850",
+    "name": "AHEC Support-Radiology Oncolog"
+  },
+  {
+    "id": "4851",
+    "name": "AHEC Support-Hlth Career Acces"
+  },
+  {
+    "id": "4852",
+    "name": "AHEC Support-Orthopaedics"
+  },
+  {
+    "id": "4950",
+    "name": "Sheps Center"
+  },
+  {
+    "id": "4966",
+    "name": "Affiliated Hospital Billing"
+  },
+  {
+    "id": "4968",
+    "name": "Primary Care Network"
+  },
+  {
+    "id": "4970",
+    "name": "Ambulatory Care Clinic"
+  },
+  {
+    "id": "4971",
+    "name": "Carolina Premiere Health"
+  },
+  {
+    "id": "4976",
+    "name": "Community Based Practices"
+  },
+  {
+    "id": "4978",
+    "name": "Family Med Comm Based Clinics"
+  },
+  {
+    "id": "5140",
+    "name": "Dental Faculty Practice"
+  },
+  {
+    "id": "5141",
+    "name": "DFP-Doctors Fund"
+  },
+  {
+    "id": "5143",
+    "name": "DFP-Deans Fund"
+  },
+  {
+    "id": "5245",
+    "name": "FPG Child Development Inst"
+  },
+  {
+    "id": "5390",
+    "name": "Microelectronics Research Prog"
+  },
+  {
+    "id": "8996",
+    "name": "Medical School Aircraft"
+  },
+  {
+    "id": "9940",
+    "name": "Morehead-Cain Sch Fdn"
+  },
+  {
+    "id": "9941",
+    "name": "Carolina for Kibera Inc"
+  }
+]

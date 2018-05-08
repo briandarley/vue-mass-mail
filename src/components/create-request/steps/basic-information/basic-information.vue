@@ -112,7 +112,8 @@
                             :placeHolder="'School or Department Name'"
                             :value="model.sponsoringUniversity"
                             v-on:change="setSponsoringUniversity"
-                            :service="departmentSchoolLookupService.getSchoolsDepartmentsLike">
+                            :service="departmentSchoolLookupService.getSchoolsDepartmentsLike"
+                            v-validate="{model:model, error: 'Sponsoring Universitry/Department Required'}">
                   <pop-over class="ml-2 align-self-center"
                             slot="info"
                             title="Sponsor"
@@ -131,7 +132,11 @@
                   <label class="mr-2">Priority</label>
                 </div>
                 <div class="col-sm-8">
-                  <select class="form-control col-sm-8" v-model="model.priority">
+                  <select
+                          id="priority"
+                          class="form-control col-sm-8"
+                          v-model="model.priority"
+                          v-validate="{model:model, error: 'Priority is Required'}">
                     <option value="">--Select Priority--</option>
                     <option>Informational</option>
                     <option>Formal Notice</option>

@@ -47,6 +47,16 @@ export default class MessageSummary extends Vue {
     
   }
 
+  getAudienceCriteria() {
+    let response = this.model.tagetPopulation;
+
+    if (this.model.targetEmployee) {
+      response += `, <br/><span class='font-weight-bold'>Employee Criteria ${this.model.targetEmployee}</span>`;
+    }
+
+    return response;
+  }
+
   mounted() {
     this.toastService.set(this);
     this.initializeFavoriteReviers();

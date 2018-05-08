@@ -1,4 +1,4 @@
-require('./constants/constants');
-require('./services/index');
-require('./services-mock/index');
-require('./components/common/directives/index');
+import './constants/constants';
+import './services/index';
+import './services-mock/index';
+import './components/common/directives/index';

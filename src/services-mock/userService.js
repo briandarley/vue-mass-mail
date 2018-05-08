@@ -1,11 +1,11 @@
 import injector from 'vue-inject';
 
-function userService(users, defaultUser) {
+function userService(configurationReaderService) {
   return {
     reviewers: [],
     get() {
-      
-
+      const defaultUser = configurationReaderService.get().defaultUser;
+      const users = configurationReaderService.get().testUsers;
       return new Promise((result, reject) => {
         return result(users.find(c => c === defaultUser));
       });
@@ -37,4 +37,4 @@ function userService(users, defaultUser) {
   }
 
 }
-injector.service('userService', ['users','defaultUser'], userService);
+injector.service('userService', ['configurationReaderService'], userService);

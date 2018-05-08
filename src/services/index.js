@@ -1,7 +1,7 @@
-import injector from 'vue-inject';
-require("./toastService");
-require("./spinnerService");
-require("./datePickerService.js");
-require("./eventBus.js");
-require("./childRouteService.js");
-require("./dialogService.js");
+import "./toastService";
+import "./spinnerService";
+import "./datePickerService.js";
+import "./eventBus.js";
+import "./childRouteService.js";
+import "./dialogService.js";
+import "./configurationReaderService.js";

@@ -4,6 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import injector from 'vue-inject'
 import router from './router'
+// app_start will load anything that can be injected into your application
+import './app_start';
 
 import Toastr from 'vue-toastr';
 require('vue-toastr/src/vue-toastr.scss');
@@ -11,9 +13,6 @@ require('vue-toastr/src/vue-toastr.scss');
 
 Vue.component('vue-toastr', Toastr);
 
-
-// app_start will load anything that can be injected into your application
-require('./app_start');
 
 Vue.config.productionTip = false
 

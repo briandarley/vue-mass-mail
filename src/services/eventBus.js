@@ -2,7 +2,7 @@ import Vue from 'vue';
 import injector from 'vue-inject';
 export const EventBus = new Vue();
 
-function eventBusService($) {
+function eventBusService() {
   return {
     eventBus: EventBus
 }

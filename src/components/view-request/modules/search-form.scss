@@ -1,0 +1,19 @@
+@import "../../../assets/scss/variables";
+
+fieldset {
+  border: 1px solid $carolina-blue;
+  border-top: 1px solid $carolina-blue;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+legend {
+  display: inline-block;
+  border: 1px solid $carolina-blue;
+  width: auto;
+  margin-left: 5px;
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: $link-blue;
+  font-size: 1.2em;
+}

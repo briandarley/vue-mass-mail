@@ -28,8 +28,9 @@ export default class MessageContents extends Vue {
       setTimeout(() => {
           this.ckEditorInstance = CKEDITOR.replace('editor1',
             {
-              extraPlugins: 'divarea,uploadimage',
-              imageUploadUrl: '/uploader/upload.php?type=Images'
+              //Remove plugins for this iteration
+              //extraPlugins: 'divarea,uploadimage',
+              //imageUploadUrl: '/uploader/upload.php?type=Images'
             });
 
           resolve();
@@ -53,9 +54,10 @@ export default class MessageContents extends Vue {
   addDefaultImageHandlingTest() {
     CKEDITOR.replace('editor1',
       {
-        extraPlugins: 'uploadimage',
+        //Remove plugins for this iteration
+        //extraPlugins: 'uploadimage',
         //This is temporary till we get an API setup
-        imageUploadUrl: '/uploader/upload.php?type=Images'
+        //imageUploadUrl: '/uploader/upload.php?type=Images'
         
 
       });

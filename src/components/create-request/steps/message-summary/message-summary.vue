@@ -77,23 +77,9 @@
           <div class="col">
             <div class="row">
               <div class="col-md-5 text-right pt-2">
-                <label>Student Recipient Criteria</label>
+                <label>Sending Criteria</label>
               </div>
-              <div class="col-md-8">
-
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row ">
-          <div class="col">
-            <div class="row">
-              <div class="col-md-5 text-right pt-2">
-                <label>Employee Recipient Criteria</label>
-              </div>
-              <div class="col-md-8">
-
-              </div>
+              <div class="col-md-7" v-html="getAudienceCriteria()"></div>
             </div>
           </div>
         </div>

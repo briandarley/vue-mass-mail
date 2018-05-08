@@ -1,2 +1,2 @@
-require('./focus');
-require('./validate');
+import './focus';
+import './validate';

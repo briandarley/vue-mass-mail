@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Information from '@/components/information/index'
-import CreateRequest from '@/components/create-request/index'
+import Information from '@/components/information/index.vue'
+import CreateRequest from '@/components/create-request/create-request.vue'
 import BasicInformation from '@/components/create-request/steps/basic-information/basic-information.vue';
 import AudienceCriteria from '@/components/create-request/steps/audience-criteria/audience-criteria.vue';
 import MessageContents from '@/components/create-request/steps/message-contents/message-contents.vue';
 import MessageSummary from '@/components/create-request/steps/message-summary/message-summary.vue';
 import TemplateSelection from '@/components/create-request/steps/template-selection/template-selection.vue';
+import ViewRequest from '@/components/view-request/view-request.vue';
 
 
-import ViewRequest from '@/components/view-request/index'
 import Archives from '@/components/archives/index'
 import Administration from '@/components/administration/index'
 

@@ -28,7 +28,18 @@ export default class CreateRequest extends Vue {
     this.changeTimer = setTimeout(() => {
 
       this.eventBus.eventBus.$emit('model-changed', this.model);
+      
     }, 500);
+
+    setTimeout(() => {
+        if (this.model.errors) {
+          //if the model was previously initialized, i.e. model.errors, then re-validate
+          //this is required because date-picker sets the form to 'needs-validation' which is not desired
+          this.validate();
+        }
+      },
+      100);
+
 
   }
 
@@ -68,7 +79,9 @@ export default class CreateRequest extends Vue {
 
   validate() {
     const $ = this.$;
-    const isValid = $(".needs-validation").checkValidity();
+
+    $(this.model).trigger("validate");
+    
 
   }
 

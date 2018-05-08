@@ -64,15 +64,15 @@ export default class AudienceCriteria extends Vue {
 
   async _getCalculatedTargetAudienceCount() {
 
-    let audienceSize = 0;
-    let property = '';
+    let audienceSize, property;
+    
     const prefix = this.model.priority === "Formal Notice" ? "all" : "";
     let upperCaseFirstLetter = false;
     if (prefix) {
       upperCaseFirstLetter = true;
     }
 
-    let service = await this.audienceCriteriaService.get();
+    const service = await this.audienceCriteriaService.get();
 
 
     switch (this.model.tagetPopulation) {
@@ -133,11 +133,10 @@ export default class AudienceCriteria extends Vue {
 
   async mounted() {
     this.toastService.set(this);
-    let $ = this.$;
-
-    //$('[data-toggle="popover"]').popover();
+    
 
     this.model = this.massMailSearchService.model;
+    this.showEmployeeCriteria = this._showEmployeeCriteria();
 
     this.initializeAudienceSize();
     //targetAudience

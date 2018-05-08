@@ -3,13 +3,21 @@ import { Component, Prop } from "vue-property-decorator"
 import ConfirmDialog from '../common/dialogs/confirm-dialog';
 @Component({
   name: 'information',
-  dependencies: ['massMailSearchService', 'userService', 'spinnerService', 'toastService'],
+  dependencies: ['massMailSearchService', 'userService', 'spinnerService', 'toastService','dialogService'],
   components: { ConfirmDialog}
 })
-
 export default class Information extends Vue {
   massMailInProgress = []
   seletedMassMail = "";
+
+  _initializeConfirmFirstSaveDialog() {
+    this.dialogService.initialize(this.$refs.confirmDialog);
+    this.dialogService.title = "Confirm Delete?";
+    this.dialogService.message = `
+          <h3 class="mr-2 text-danger d-inline-block"><i class="fa fa-exclamation-circle"></i> </h3>
+          Would you like to delete this MassMail?`;
+    this.dialogService.confirmResponse = this.onConfirmDelete;
+  }
 
   async onConfirmDelete() {
     await this.massMailSearchService.delete(this.seletedMassMail);
@@ -18,11 +26,10 @@ export default class Information extends Vue {
     this.toastService.success("Successfully removed MassMail");
   }
 
-  onDeclineDelete() {
-    
-  }
+ 
 
   async deleteMassMail() {
+    this._initializeConfirmFirstSaveDialog();
     this.$refs.confirmDialog.show();
 
   }
@@ -44,12 +51,10 @@ export default class Information extends Vue {
     this.loadCurrentMassMailings();
 
   }
-  created() {
+  created() { }
 
-
-
-
-
+  createRequest() {
+    this.$router.push('/create-request/');
   }
 
 }

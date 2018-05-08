@@ -66,18 +66,15 @@
         e => {
           this.datePicker = e.target.value;
         });
-      //moment
-      //console.log(moment(this.selectedDate).toDate());
-      //console.log(this.label);
-      //console.log(this.selectedDate);
-      if (moment(this.selectedDate).isValid()) {
-        //$(this.$refs.datepicker)          .datepicker('update', moment(this.selectedDate).toDate());
+     
+      //if (moment(this.selectedDate).isValid()) {
+      //  //$(this.$refs.datepicker)          .datepicker('update', moment(this.selectedDate).toDate());
           
-      }
+      //}
 
-      setTimeout(() => {
-        //console.log(this.selectedDate);
-      },3000)
+      //setTimeout(() => {
+      //  //console.log(this.selectedDate);
+      //},3000)
 
       this.value = this.selectedDate;
       

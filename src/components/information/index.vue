@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h6>Mass E-mail is a tool for requesting and distributing official UNC-Chapel Hill messages. </h6>
+    <h6 class="text-primary">Mass E-mail is a tool for requesting and distributing official UNC-Chapel Hill messages. </h6>
 
     <p class="lead">
       This system provides support for mailing to predefined, broad sectors of the University community. Approved messages can be sent to all students, as well as to all employees. Some filtering is available to target specific subpopulations of recipients.
@@ -22,6 +22,7 @@
 
     </p>
 
+
     <transition name="fade-h-o">
       <div class="form-inline form-group" v-if="massMailInProgress && massMailInProgress.length > 0">
         <div class="font-weight-bold">Select from the dropdown to edit an existing MassMail previously entered.</div>
@@ -36,12 +37,13 @@
         </div>
       </div>
     </transition>
+    <button type="button" class="btn btn-labeled btn-primary text-light mt-4 mb-4 pull-right" @click="createRequest">
+      <span class="btn-label "><i class="fa fa-newspaper-o"></i></span>Create New Request
+    </button>
+
+
     <confirm-dialog id="confirmDelete"
-                    title="Confirm Delete?"
-                    message="Would you like to delete this MassMail?"
-                    ref="confirmDialog"
-                    :declineResponse="onDeclineDelete"
-                    :confirmResponse="onConfirmDelete"></confirm-dialog>
+                    ref="confirmDialog"></confirm-dialog>
   </div>
 
 

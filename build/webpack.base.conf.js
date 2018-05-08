@@ -62,7 +62,10 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+          name: utils.assetsPath('fonts/[name].[hash:7].[ext]'),
+          //NOTE BD added logic to address issue with wrong path of fonts
+          publicPath: process.env.NODE_ENV === 'production' ? '../../' : '/'
+          
         }
       }
     ]

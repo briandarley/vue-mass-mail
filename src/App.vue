@@ -23,18 +23,17 @@
 <script>
   //https://github.com/kaorun343/vue-property-decorator
   import Vue from "vue"
-  import {Component ,Prop,Watch} from "vue-property-decorator"
+  import { Component, Prop, Watch } from "vue-property-decorator"
   import SideNav from './components/common/nav/side-nav';
   import Spinner from './components/common/spinner/spinner';
   import './components/common/filters';
 
-  
 
   @Component({
     name: 'App',
-    components: { SideNav, Spinner},
+    components: { SideNav, Spinner },
     dependencies: ['$']
-})
+  })
   export default class App extends Vue {
 
 
@@ -56,7 +55,8 @@
 <style lang="scss">
   @import "assets/scss/variables";
 
-  $fa-font-path: "~font-awesome/fonts";
+  $fa-font-path: "assets/fonts";
+  /*$fa-font-path: "~font-awesome/fonts";*/
   @import "~font-awesome/scss/font-awesome";
   @import 'bootstrap/scss/bootstrap.scss';
 
@@ -64,15 +64,17 @@
 
 
   html, body {
-    height: 100%;
-  /*font-size: .9em;*/
+    height: 100%; /*font-size: .9em;*/
   }
 
- .main-content {
+  .main-content {
     background-color: $gray-100;
     border: 1px dashed $carolina-blue;
-    
-}
+  }
+
+  ::placeholder {
+    opacity: .4 !important;
+  }
 
   .main {
     width: auto;
@@ -97,6 +99,7 @@
     background: rgba(0,0,0,0.15);
     border-radius: 3px 0 0 3px;
   }
+
   .btn-sm .btn-label {
     padding: 3px 8px;
     left: -8px;
@@ -106,10 +109,10 @@
     padding-top: 0;
     padding-bottom: 0;
   }
-  
-  .btn-labeled.btn {
-    margin-bottom: 10px;
-  }
+
+    .btn-labeled.btn {
+      margin-bottom: 10px;
+    }
 
 
 
@@ -163,7 +166,7 @@
 
   //Ending state for enter. Added one frame after element is inserted (at the same time v-enter is removed), removed when transition/animation finishes.
   .fade-h-o-enter-to {
-    max-height: 150px;
+    max-height: 350px;
     transition: max-height 1.15s ease-in;
     overflow: hidden;
   }
@@ -192,9 +195,10 @@
 
 
 
-span.twitter-typeahead {
+  span.twitter-typeahead {
+    .tt-menu
 
-  .tt-menu {
+  {
     @extend .dropdown-menu;
   }
 
@@ -202,9 +206,9 @@ span.twitter-typeahead {
     @extend .dropdown-item;
   }
 
-  .tt-suggestion.tt-cursor {
-    @extend .dropdown-item.active;
-  }
+    .tt-suggestion.tt-cursor {
+      @extend .dropdown-item.active;
+    }
 
   .input-group & {
     display: flex !important;
@@ -212,11 +216,12 @@ span.twitter-typeahead {
     position: relative;
     flex: 1 1 auto;
     width: 1%;
+    .tt-menu, .tt-hint, .tt-input
 
-    .tt-menu, .tt-hint, .tt-input {
-      width: 100%;
-    }
+  {
+    width: 100%;
   }
-}
 
+  }
+  }
 </style>

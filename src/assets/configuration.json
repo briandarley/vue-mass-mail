@@ -1,0 +1,12 @@
+{
+  "environment": "test",
+  "baseURL": "http://localhost:8080/",
+  "defaultUser": "rosalie",
+  "testUsers": [ "rosalie", "briordan", "kmeason", "maclay", "dummy", "bdarley" ]
+}
+
+
+
+
+
+

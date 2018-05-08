@@ -1,16 +1,17 @@
 import injector from 'vue-inject';
+import "./massMailSearchService";
+import "./userService";
+import "./departmentSchoolLookupService";
+import "./audienceCriteriaService";
 
-require("./massMailSearchService");
-require("./userService");
-require("./departmentSchoolLookupService");
-require("./audienceCriteriaService");
-
-function apiUrlBuilder(apiRoot) {
+function apiUrlBuilder(configurationReaderService) {
   return function (path) {
+    const apiRoot = configurationReaderService.get().baseURL;
+    
     return apiRoot + '/' + path;
   }
 }
 
-injector.factory('apiUrlBuilder', 'apiRoot', apiUrlBuilder);
+injector.factory('apiUrlBuilder', 'configurationReaderService', apiUrlBuilder);
 
 

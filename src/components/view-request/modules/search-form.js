@@ -9,7 +9,7 @@ Component({
 
 export default class SearchForm extends Vue {
   textFilter = '';
-  status = '';
+  status = 'Needs Review';
   @Prop() searchHandler;
 
   _searchFunc
@@ -21,10 +21,14 @@ export default class SearchForm extends Vue {
     clearTimeout(this._searchFunc);
 
     this._searchFunc = setTimeout(() => {
-        this.searchHandler.search(value);
+        this.searchHandler.search(value, this.status);
       },
       200);
 
+  }
+
+  statusChanged() {
+    this.onSearchFilterChanged(this.textFilter);
   }
 
   clearSearchRequest() {

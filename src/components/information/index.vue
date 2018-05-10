@@ -11,7 +11,8 @@
     </div>
     <ul>
       <li>Review the <a href="https://help.unc.edu/help/mass-email-requirements/" target="_blank">Mass Email Requirements</a> for information about how the system works.</li>
-      <li>Details on human subject research requirements, recycling old messages, and other questions can be found in the <a href="https://help.unc.edu/help/mass-e-mail-frequently-asked-questions/" target="_blank">Mass Email FAQ</a>.</li>
+      <li>Details on human subject research requirements, recycling old messages, and other questions can be found in the
+      <a href="https://help.unc.edu/help/mass-e-mail-frequently-asked-questions/" target="_blank">Mass Email FAQ</a>.</li>
       <li>All requests must be approved and may be denied if there are concerns with the content or images. See the Appropriate Use section of the Mass Email Requirements for details.</li>
       <li>Message approval can take 1-3 days.</li>
     </ul>
@@ -25,7 +26,7 @@
 
     <transition name="fade-h-o">
       <div class="form-inline form-group" v-if="massMailInProgress && massMailInProgress.length > 0">
-        <div class="font-weight-bold">Select from the dropdown to edit an existing MassMail previously entered.</div>
+        <div class="font-weight-bold">Select from the drop-down to edit an existing MassMail previously entered.</div>
 
         <div class="input-group">
           <select class="form-control" v-model="seletedMassMail">

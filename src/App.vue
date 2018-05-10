@@ -114,10 +114,18 @@
       margin-bottom: 10px;
     }
 
-
-
+  .validation-error h3{
+    font-size: 5em;
+    opacity: .3;
+    position: absolute;
+    top: 0px;
+    left: 40px;
+  }
+  .validation-error .message{
+    display:block;
+    margin-left:120px;
+  }
   /***********************************************************************************************/
-
   //Fade Height and Opacity
   //v-enter: Starting state for enter. Added before element is inserted, removed one frame after element is inserted.
   .fade-enter {

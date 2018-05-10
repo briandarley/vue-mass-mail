@@ -12,11 +12,12 @@
         <div class="col form-group">
 
           <label class="mr-2">Status</label>
-          <select class="form-control" v-model="status">
-            <option value="">--select--</option>
+          <select class="form-control" v-model="status" @change="statusChanged">
+            <option>Needs Review</option>
             <option>Running Tonight</option>
             <option>Pending/Expired</option>
             <option>Failed/Needs Review</option>
+            <option>Archive</option>
           </select>
 
         </div>

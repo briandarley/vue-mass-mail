@@ -1,0 +1,7 @@
+//Run server to test distribution code to ensure dependencies work as expected
+http-server
+
+//Run in debug
+npm run dev
+//Create dist
+npm run build

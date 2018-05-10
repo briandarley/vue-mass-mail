@@ -1,21 +1,26 @@
 <template>
   <div class="container">
-    
+
     <search-form :searchHandler="searchHandler"></search-form>
 
     <div class="row">
       <div class="col ">
         <div class="text-primary h5 mt-4">Total Records: {{totalRecords  |formatNumber}}</div>
       </div>
-      <div class="col">
-        <pagination :totalRecords="totalRecords"
-                    :index="pageIndex"
-                    :navHandler="pagingHandler"
-                    class="d-inline-block float-right mt-3"></pagination>
+      <div class="col" style="height:70px;">
+        <transition name="fade">
+          <div v-show="totalRecords > pageSize">
+            <pagination :totalRecords="totalRecords"
+                        :index="pageIndex"
+                        :navHandler="pagingHandler"
+                        class="d-inline-block float-right mt-3"></pagination>
+          </div>
+        </transition>
       </div>
+      
     </div>
-    
-    
+
+
 
     <table class="table table-sm table-borderless">
       <thead>
@@ -41,9 +46,14 @@
                   <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                  <li><a href="javascript:void(0);"><i class="fa fa-folder-open mr-2"></i> View</a></li>
-                  <li><a href="javascript:void(0);"><i class="fa fa-pencil mr-2"></i> Edit</a></li>
-                  <li><a href="javascript:void(0);"><i class="fa fa-times-circle mr-2"></i> Cancel</a></li>
+                  <li>
+                    <router-link :to="{path: 'create-request/' + record.id + '/message-summary'}"><i class="fa fa-folder-open mr-2"></i> View</router-link>
+                  </li>
+                  <li>
+                    <router-link :to="{path: 'create-request/' + record.id}"><i class="fa fa-pencil mr-2"></i> Edit</router-link>
+                  </li>
+                  <li><a href="javascript:void(0);" @click="sendMessage(record.id)"><i class="fa fa-envelope-o mr-2"></i> Send Message</a></li>
+                  <li><a href="javascript:void(0);" @click="cancel(record.id)"><i class="fa fa-times-circle mr-2"></i> Cancel</a></li>
                   <li><a href="javascript:void(0);"><i class="fa fa-copy mr-2"></i> Copy</a></li>
                   <li class="dropdown-submenu">
                     <a href="javascript:void(0);" tabindex="-1"><i class="fa fa-user mr-2"></i> Students Action</a>
@@ -65,13 +75,21 @@
           </tr>
           <tr :class="{'alt': index % 2 == 0}">
             <td colspan="4">
-              <div>{{record.subject}}</div>
-
+              <div>
+                <div class="row">
+                  <div class="col">
+                    <label class="font-weight-bold mr-2">Send Date</label>{{record.sendDate | formatDate}}
+                  </div>
+                  <div class="col">
+                    <label class="font-weight-bold mr-2">Expiration Date</label>{{record.expirationDate | formatDate}}
+                  </div>
+                </div>
+                {{record.subject}}
+              </div>
               <transition name="fade-h-o">
                 <div v-if="record.showHistory" class="overflow-hidden">
                   <span class="font-weight-bold">Record History</span>
                   <table class="table table-sm table-borderless small">
-
                     <thead class="bg-dark text-light">
                       <tr>
                         <td>Date</td>
@@ -89,28 +107,32 @@
                         <td>{{item.firstName}}</td>
                         <td>{{item.lastName}}</td>
                       </tr>
-
                     </tbody>
                   </table>
                 </div>
               </transition>
-
               <div class="text-center h5 ">
                 <a href="javascript:void(0)" @click="showHistory(record)"><i class="fa fa-angle-down" :class="{open: record.showHistory}"></i></a>
               </div>
-
             </td>
           </tr>
-
         </template>
       </tbody>
     </table>
-
-    <pagination :totalRecords="totalRecords"
-                :index="pageIndex"
-                :navHandler="pagingHandler"
-                class="d-inline-block float-right mt-3"></pagination>
-
+    <div class="col" style="height:70px;">
+        <transition name="fade">
+          <div v-show="totalRecords > pageSize">
+            <pagination :totalRecords="totalRecords"
+                        :index="pageIndex"
+                        :navHandler="pagingHandler"
+                        class="d-inline-block float-right mt-3"></pagination>
+          </div>
+        </transition>
+      </div>
+      <confirm-dialog id="confirmCancel"
+                      ref="confirmCancel"></confirm-dialog>
+      <send-message-dialog id="sendMessage"
+                           ref="sendMessage"></send-message-dialog>
   </div>
 </template>
 <script src="./view-request.js"></script>

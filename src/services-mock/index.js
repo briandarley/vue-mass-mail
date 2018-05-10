@@ -3,6 +3,7 @@ import "./massMailSearchService";
 import "./userService";
 import "./departmentSchoolLookupService";
 import "./audienceCriteriaService";
+import "./sendMessageService";
 
 function apiUrlBuilder(configurationReaderService) {
   return function (path) {

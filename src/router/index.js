@@ -10,8 +10,8 @@ import TemplateSelection from '@/components/create-request/steps/template-select
 import ViewRequest from '@/components/view-request/view-request.vue';
 
 
-import Archives from '@/components/archives/index'
-import Administration from '@/components/administration/index'
+//import Archives from '@/components/archives/index'
+import Administration from '@/components/administration/administration.vue'
 
 Vue.use(Router);
 
@@ -46,12 +46,12 @@ const router = new Router({
           title: 'Audience Criteria',
           component: AudienceCriteria
         },
-        {
-          name: 'template-selection',
-          path: 'template-selection',
-          title: 'Template Selection',
-          component: TemplateSelection
-        },
+        //{
+        //  name: 'template-selection',
+        //  path: 'template-selection',
+        //  title: 'Template Selection',
+        //  component: TemplateSelection
+        //},
         {
           name: 'message-contents',
           path: 'message-contents',
@@ -91,15 +91,15 @@ const router = new Router({
       
 
     },
-    {
-      path: '/archives',
-      name: 'archives',
-      title: 'Archives',
-      component: Archives,
-      icon: 'fa-archive'
+    //{
+    //  path: '/archives',
+    //  name: 'archives',
+    //  title: 'Archives',
+    //  component: Archives,
+    //  icon: 'fa-archive'
       
 
-    },
+    //},
     {
       path: '/administration',
       name: 'administration',

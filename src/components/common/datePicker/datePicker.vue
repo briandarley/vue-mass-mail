@@ -34,13 +34,16 @@
 
     @Watch('selectedDate', { immediate: false })
     onSelectedDateChanged(newValue, oldValue) {
-      this.value = newValue;
+      const moment = this.moment;
+      this.value = moment(new Date(newValue)).format("MM/DD/YYYY");
     }
 
     value = "";
 
 
     get datePicker() {
+      
+
       return this.selectedDate;
     }
     set datePicker(value) {
@@ -72,12 +75,10 @@
           
       //}
 
-      //setTimeout(() => {
-      //  //console.log(this.selectedDate);
-      //},3000)
-
-      this.value = this.selectedDate;
+      this.value = moment(this.selectedDate).format("MM/DD/YYYY");
       
+      //moment YYYY-MM-DDT00:00:00
+
     }
     
   }

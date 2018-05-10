@@ -13,9 +13,9 @@ export default class Information extends Vue {
   _initializeConfirmFirstSaveDialog() {
     this.dialogService.initialize(this.$refs.confirmDialog);
     this.dialogService.title = "Confirm Delete?";
-    this.dialogService.message = `
-          <h3 class="mr-2 text-danger d-inline-block"><i class="fa fa-exclamation-circle"></i> </h3>
-          Would you like to delete this MassMail?`;
+    this.dialogService.message = `<div class="validation-error">
+          <h3 class="mr-2 text-warning d-inline-block"><i class="fa fa-exclamation-triangle"></i> </h3>
+          <span class="message">Would you like to delete this MassMail?<br/><br/></span></div>`;
     this.dialogService.confirmResponse = this.onConfirmDelete;
   }
 

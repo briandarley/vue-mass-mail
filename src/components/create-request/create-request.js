@@ -82,24 +82,27 @@ export default class CreateRequest extends Vue {
   _initializeValidationMessageDialog() {
     this.dialogService.initialize(this.$refs.messageDialog);
     this.dialogService.title = "Validation Errors";
-    this.dialogService.message = `
-          <h3 class="mr-2 text-warning d-inline-block"><i class="fa fa-exclamation-circle"></i> </h3>
-          Validation errors detected on form. Please correct missing or invalid errors before proceeding.`;
+    this.dialogService.message = `<div class="validation-error">
+          <h3 class="mr-2 text-warning d-inline-block"><i class="fa fa-exclamation-triangle"></i> </h3>
+          <span class="message">Validation errors detected on form. Please correct missing or invalid errors before proceeding.</span>
+      </div>`;
+    
   }
   _initializeModelErrorMessageDialog(id) {
     this.dialogService.initialize(this.$refs.messageDialog);
     this.dialogService.title = "Unable To Retrieve MassMail";
-    this.dialogService.message = `
-          <h3 class="mr-2 text-warning d-inline-block"><i class="fa fa-exclamation-circle"></i> </h3>
-          The service was unable to locate MassMail ${id}. <br/>
-          The application will now redirect you to the information page where you may create a new request.`;
+    this.dialogService.message = `<div class="validation-error">
+          <h3 class="mr-2 text-warning d-inline-block h1"><i class="fa fa-exclamation-triangle"></i> </h3>
+           <span class="message">The service was unable to locate MassMail ${id}. <br/>
+          The application will now redirect you to the information page where you may create a new request.</span>
+      </div>`;
   }
   _initializeConfirmFirstSaveDialog() {
     this.dialogService.initialize(this.$refs.confirmDialog);
     this.dialogService.title = "Confirm Save?"
-    this.dialogService.message = `
+    this.dialogService.message = `<div class="validation-error">
           <h3 class="mr-2 text-success d-inline-block"><i class="fa fa-exclamation-circle"></i> </h3>
-          The system would like to save your request at this time. The entry will be left in an incomplete status until fully completed allowing you to continue where you left at to resume entry.`;
+          <span class="message">The system would like to save your request at this time. The entry will be left in an incomplete status until fully completed allowing you to continue where you left at to resume entry.</span>`;
     this.dialogService.confirmResponse = this.save;
   }
 

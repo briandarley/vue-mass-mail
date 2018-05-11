@@ -13,6 +13,7 @@ injector.constant('axios', axios);
 injector.constant('$', $);
 injector.constant('moment', moment);
 injector.constant('_', _);
+injector.constant('departmentAddress', 'https://itsappsspt.unc.edu/myaccounts/webresources/utilities/departments');
 
 
 

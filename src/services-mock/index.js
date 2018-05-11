@@ -4,6 +4,8 @@ import "./userService";
 import "./departmentSchoolLookupService";
 import "./audienceCriteriaService";
 import "./sendMessageService";
+import "./departmentLookupService.js";
+import "./administratorService.js";
 
 function apiUrlBuilder(configurationReaderService) {
   return function (path) {

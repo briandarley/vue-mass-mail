@@ -7,7 +7,7 @@ import CountUp from 'countup.js';
 
 @Component({
   name: 'audience-criteria',
-  dependencies: ['$', 'toastService', 'massMailSearchService', 'audienceCriteriaService'],
+  dependencies: ['$', 'toastService', 'massMailService', 'audienceCriteriaService'],
   components: { PopOver, TypeAhead }
 })
 export default class AudienceCriteria extends Vue {
@@ -75,7 +75,7 @@ export default class AudienceCriteria extends Vue {
     const service = await this.audienceCriteriaService.get();
 
 
-    switch (this.model.tagetPopulation) {
+    switch (this.model.targetPopulation) {
 
       case "Students":
         property = upperCaseFirstLetter ? prefix + "Students" : "students";
@@ -100,7 +100,7 @@ export default class AudienceCriteria extends Vue {
   }
 
   _showEmployeeCriteria() {
-    switch (this.model.tagetPopulation) {
+    switch (this.model.targetPopulation) {
       case "Employees":
       case "Employees and Students":
         return true;
@@ -110,7 +110,7 @@ export default class AudienceCriteria extends Vue {
   }
 
   async _getCalculatedDddAudienceCount() {
-    if (this.model.tagetPopulation === "Testing Only") {
+    if (this.model.targetPopulation === "Testing Only") {
       return 0;
     }
     const service = await this.audienceCriteriaService.get();
@@ -135,7 +135,7 @@ export default class AudienceCriteria extends Vue {
     this.toastService.set(this);
     
 
-    this.model = this.massMailSearchService.model;
+    this.model = this.massMailService.model;
     this.showEmployeeCriteria = this._showEmployeeCriteria();
 
     this.initializeAudienceSize();

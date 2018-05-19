@@ -34,7 +34,9 @@
 
     @Watch('selectedDate', { immediate: false })
     onSelectedDateChanged(newValue, oldValue) {
+      if (!newValue) return;
       const moment = this.moment;
+      
       this.value = moment(new Date(newValue)).format("MM/DD/YYYY");
     }
 
@@ -52,10 +54,10 @@
 
     mounted() {
       
-      var $ = this.$;
-      var moment = this.moment;
+      const $ = this.$;
+      const moment = this.moment;
 
-      var date = new Date();
+      const date = new Date();
       date.setDate(date.getDate());
 
       $.fn.datepicker.defaults.autoclose = true;
@@ -70,14 +72,11 @@
           this.datePicker = e.target.value;
         });
      
-      //if (moment(this.selectedDate).isValid()) {
-      //  //$(this.$refs.datepicker)          .datepicker('update', moment(this.selectedDate).toDate());
-          
-      //}
-
-      this.value = moment(this.selectedDate).format("MM/DD/YYYY");
+      if (this.selectedDate) {
+        this.value = moment(this.selectedDate).format("MM/DD/YYYY");
+      }
       
-      //moment YYYY-MM-DDT00:00:00
+      
 
     }
     

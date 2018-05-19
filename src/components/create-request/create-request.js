@@ -7,12 +7,12 @@ import CreateRequestNav from '../common/nav/create-request-nav.vue';
 
 @Component({
   name: 'create-request',
-  dependencies: ['massMailSearchService', 'userService', 'toastService', 'spinnerService', '$', 'childRouteService', 'dialogService','eventBus'],
+  dependencies: ['massMailSearchService', 'userService', 'toastService', 'spinnerService', '$', 'childRouteService', 'dialogService', 'eventBus', 'massMailService'],
   components: { ConfirmDialog, CreateRequestNav, MessageDialog }
 })
 export default class CreateRequest extends Vue {
   @Prop() id;
-
+  user = null;
   loaded = false;
   model = {
     isNew: true
@@ -86,7 +86,7 @@ export default class CreateRequest extends Vue {
           <h3 class="mr-2 text-warning d-inline-block"><i class="fa fa-exclamation-triangle"></i> </h3>
           <span class="message">Validation errors detected on form. Please correct missing or invalid errors before proceeding.</span>
       </div>`;
-    
+
   }
   _initializeModelErrorMessageDialog(id) {
     this.dialogService.initialize(this.$refs.messageDialog);
@@ -110,7 +110,7 @@ export default class CreateRequest extends Vue {
 
 
   async loadMassMail() {
-    this.model = this.massMailSearchService.model;
+    this.model = this.massMailService.model;
 
     if (!this.id) {
       return;
@@ -119,8 +119,9 @@ export default class CreateRequest extends Vue {
 
 
     try {
-      this.model = await this.massMailSearchService.getCurrentMassMailById(this.id);
 
+      this.model = await this.massMailService.getCurrentMassMailById(this.id);
+      
       this.toastService.success("Successfully Retrieved Record");
     } catch (e) {
       this._initializeModelErrorMessageDialog(this.id);
@@ -151,11 +152,16 @@ export default class CreateRequest extends Vue {
 
     $('[data-toggle="popover"]').popover();
   }
+  async initializeUserProfile() {
+    const user = await (this.userService.get());
+    this.user = user.profile;
 
+  }
   onModelChanged(model) {
     //console.log(this.model);
     this.model = model;
     this.massMailSearchService.model = model;
+    this.massMailService.model = model;
     //console.log(this.model);
 
   }
@@ -181,37 +187,55 @@ export default class CreateRequest extends Vue {
     this.addEventHandlers();
     this.addControlBehavior();
     this.massMailSearchService.clear();
+    this.massMailService.clear();
     this.bindKeyboardEvents();
-
+    await this.initializeUserProfile();
     await this.loadMassMail();
     this.loaded = true;
 
   }
   async save() {
+    this.spinnerService.show();
 
-    if (!this.model.sendFrom) {
-      this.model.sendFrom = "no_reply@unc.edu";
+    const isNew = this.model.isNew;
+    try {
+      if (!this.model.sendFrom) {
+        this.model.sendFrom = "no_reply@unc.edu";
+      }
+      if (!this.model.replyTo) {
+        this.model.replyTo = "no_reply@unc.edu";
+      }
+
+      //this.massMailService.model = this.model;
+
+
+      await this.massMailService.save();
+
+      this.model = this.massMailSearchService.model;
+
+      if (isNew) {
+        this._navigateToNextRoute();
+        this.toastService.success("MassMail successfully saved, the MassMail ID is " + this.model.id);
+      } else {
+        this.toastService.success("Successfully saved record");
+      }
+
+
+    } catch (e) {
+      console.log(e);
+      this.toastService.error("Failed to save Mass Mail record");
     }
-    if (!this.model.replyTo) {
-      this.model.replyTo = "no_reply@unc.edu";
-    }
 
-    await this.massMailSearchService.save();
-
-    const id = this.massMailSearchService.model.id;
-    
-    this.toastService.success("MassMail successfully saved, the MassMail ID is " + id);
+    this.spinnerService.hide();
 
 
-    this.model = this.massMailSearchService.model;
-
-    this._navigateToNextRoute();
   }
   test() {
-    let $ = this.$;
+    this.save();
+    //let $ = this.$;
 
 
-    $(this.model).trigger("validate")
+    //$(this.model).trigger("validate")
     //$("#basic-information").validator();
     //$(this.massMailSearchService.model).trigger("validate")
   }

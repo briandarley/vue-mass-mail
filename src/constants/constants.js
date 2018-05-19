@@ -13,6 +13,8 @@ injector.constant('axios', axios);
 injector.constant('$', $);
 injector.constant('moment', moment);
 injector.constant('_', _);
+injector.constant('serviceEndpoint', 'http://localhost:13002/v1/');
+
 injector.constant('departmentAddress', 'https://itsappsspt.unc.edu/myaccounts/webresources/utilities/departments');
 
 

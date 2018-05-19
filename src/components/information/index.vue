@@ -29,7 +29,7 @@
         <div class="font-weight-bold">Select from the drop-down to edit an existing MassMail previously entered.</div>
 
         <div class="input-group">
-          <select class="form-control" v-model="seletedMassMail">
+          <select class="form-control messages-in-progress" v-model="seletedMassMail">
             <option disabled value="">Select an Existing MassMail to edit</option>
             <option v-for="item of massMailInProgress" :value="item.id">{{item.id }} - {{item.subject}}</option>
           </select>
@@ -51,4 +51,4 @@
 
 </template>
 <script src="./index.js"></script>
-<style lang="scss" src="./index.scss"></style>
+<style lang="scss" src="./index.scss" scoped></style>

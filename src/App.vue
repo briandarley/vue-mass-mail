@@ -5,7 +5,8 @@
         <side-nav></side-nav>
       </div>
       <div class="main col-9 py-3">
-
+        <a href="javascript:void(0)" class="pull-right" @click="login">Login</a>
+        <a href="javascript:void(0)" class="pull-right" @click="logout">Log Out</a>
         <transition name="fade">
           <router-view />
         </transition>
@@ -32,7 +33,7 @@
   @Component({
     name: 'App',
     components: { SideNav, Spinner },
-    dependencies: ['$']
+    dependencies: ['$', 'userService']
   })
   export default class App extends Vue {
 
@@ -44,7 +45,13 @@
       //console.log($(".main-content").height());
       //$(".main-content").animate({ height: "auto" }, 3000);
     }
-
+    login() {
+      
+      this.userService.login();
+    }
+    logout() {
+      this.userService.logout();
+    }
     mounted() {
       let $ = this.$;
       //console.log($(".main-content").height());

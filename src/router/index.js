@@ -9,14 +9,28 @@ import MessageSummary from '@/components/create-request/steps/message-summary/me
 import TemplateSelection from '@/components/create-request/steps/template-selection/template-selection.vue';
 import ViewRequest from '@/components/view-request/view-request.vue';
 
+import CallBack from '@/components/login/call-back.vue';
+
 
 //import Archives from '@/components/archives/index'
 import Administration from '@/components/administration/administration.vue'
 
+
+
 Vue.use(Router);
 
 const router = new Router({
+  mode: 'history',
   routes: [
+    
+    {
+      path: '/call-back',
+      name: 'CallBack',
+      title: 'Call Back',
+      component: CallBack,
+      icon: 'fa-unlock',
+      navigable: false
+    },
     {
       path: '/information',
       name: 'Information',

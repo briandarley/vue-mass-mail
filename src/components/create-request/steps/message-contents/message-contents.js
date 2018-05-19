@@ -16,7 +16,7 @@ require('ckeditor/ckeditor');
 
 @Component({
   name: '',
-  dependencies: ['$','massMailSearchService']
+  dependencies: ['$','massMailService']
 })
 export default class MessageContents extends Vue {
   model = {};
@@ -80,7 +80,7 @@ export default class MessageContents extends Vue {
       this.addCkEditorEventHandling();
     });
     
-    this.model = this.massMailSearchService.model;
+    this.model = this.massMailService.model;
     
   }
 

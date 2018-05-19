@@ -24,7 +24,7 @@
 
     routes() {
       return Router.options.routes.filter((navitem) => {
-        return navitem.path !== "*";
+        return navitem.path !== "*" && navitem.navigable !== false;
       });
     }
     routePath(navitem) {

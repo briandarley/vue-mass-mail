@@ -1,12 +1,26 @@
 {
+  
   "environment": "test",
   "baseURL": "http://localhost:8080/",
   "defaultUser": "rosalie",
-  "testUsers": [ "rosalie", "briordan", "kmeason", "maclay", "dummy", "bdarley" ]
+  "testUsers": [ "rosalie", "briordan", "kmeason", "maclay", "dummy", "bdarley" ],
+
+  "security-local": {
+    "authority": "http://localhost:5010",
+    "client_id": "vue-local-client",
+    "redirect_uri": "http://localhost:8080/call-back",
+    "response_type": "id_token token",
+    "scope": "openid profile mass-mail-dal",
+    "post_logout_redirect_uri": "http://localhost:8080"
+  },
+  "security-test": {
+    "authority": "http://its-idm-tst-web.adtest.unc.edu/identityserver",
+    "client_id": "vue-local-client",
+    "redirect_uri": "http://localhost:8080/call-back",
+    "response_type": "id_token token",
+    "scope": "openid profile mass-mail-business",
+    "post_logout_redirect_uri": "http://localhost:8080"
+  }
 }
-
-
-
-
 
 

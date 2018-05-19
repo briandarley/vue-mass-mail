@@ -14,8 +14,8 @@ function userService(configurationReaderService) {
     getReviewers() {
       return new Promise((result, reject) => {
         setTimeout(() => {
-            result(this.reviewers);
-          },
+          result(this.reviewers);
+        },
           1000);
       });
     },
@@ -27,10 +27,10 @@ function userService(configurationReaderService) {
     },
     removeFavoriteReviewer(reviewer) {
       return new Promise((result, reject) => {
-      
+
         var index = this.reviewers.indexOf(reviewer);
         this.reviewers.splice(index, 1);
-      
+
         return result();
       });
     }

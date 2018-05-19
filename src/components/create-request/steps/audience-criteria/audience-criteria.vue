@@ -18,7 +18,7 @@
                 <label>E-mail Target Population</label>
               </div>
               <div class="col-sm-7 p-0">
-                <select class="form-control col-sm-8" v-model="model.tagetPopulation" @change="calculateAudience">
+                <select class="form-control col-sm-8" v-model="model.targetPopulation" @change="calculateAudience">
                   <option value="">--Select Target Population --</option>
                   <option>Employees and Students</option>
                   <option>Employees</option>

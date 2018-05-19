@@ -8,7 +8,7 @@ import InputDialog from '../../../common/dialogs/input-dialog';
 import PreviewDialog  from '../../../common/dialogs/preview-dialog';
 @Component({
   name: '',
-  dependencies: ['massMailSearchService', 'userService', 'toastService', 'spinnerService', '$', 'departmentSchoolLookupService', 'eventBus'],
+  dependencies: ['massMailService', 'userService', 'toastService', 'spinnerService', '$', 'departmentSchoolLookupService', 'eventBus'],
   components: { DatePicker, PopOver, TypeAhead, SwitchSlider, InputDialog, PreviewDialog }
 
 })
@@ -48,7 +48,7 @@ export default class MessageSummary extends Vue {
   }
 
   getAudienceCriteria() {
-    let response = this.model.tagetPopulation;
+    let response = this.model.targetPopulation;
 
     if (this.model.targetEmployee) {
       response += `, <br/><span class='font-weight-bold'>Employee Criteria ${this.model.targetEmployee}</span>`;
@@ -60,7 +60,7 @@ export default class MessageSummary extends Vue {
   mounted() {
     this.toastService.set(this);
     this.initializeFavoriteReviers();
-    this.model = this.massMailSearchService.model;
+    this.model = this.massMailService.model;
 
   }
 }

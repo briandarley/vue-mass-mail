@@ -230,12 +230,12 @@ function massMailSearchService(apiUrlBuilder, axios, userService, moment) {
 
 
     async save() {
-      const auther = await userService.get();
+      const author = await userService.get();
 
       return await new Promise((result, reject) => {
 
         setTimeout(() => {
-          this.model.author = auther;
+          this.model.author = author.profile.name;
           this.model.id = this._generateId();
           this.model.saved = true;
           this.dataStore.push(this.model);
@@ -251,7 +251,7 @@ function massMailSearchService(apiUrlBuilder, axios, userService, moment) {
         sendDate: null,
         saved: false,
         priority: '',
-        tagetPopulation: '',
+        targetPopulation: '',
         targetEmployee: ''
       }
     },

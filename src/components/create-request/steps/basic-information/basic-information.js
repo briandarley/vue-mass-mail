@@ -8,7 +8,7 @@ import TypeAhead from '../../../common/type-ahead/type-ahead';
 
 @Component({
   name: 'basic-infomation',
-  dependencies: ['massMailSearchService','userService', 'toastService', 'spinnerService', '$', 'departmentSchoolLookupService','eventBus'],
+  dependencies: ['massMailService','userService', 'toastService', 'spinnerService', '$', 'departmentSchoolLookupService','eventBus'],
   components: {DatePicker, PopOver, TypeAhead }
 
 })
@@ -72,7 +72,7 @@ export default class CreateRequest extends Vue {
 
     $('[data-toggle="popover"]').popover();
 
-    this.model = this.massMailSearchService.model;
+    this.model = this.massMailService.model;
     
   }
 

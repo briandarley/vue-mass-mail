@@ -6,15 +6,14 @@
         <div class="card-body">
           <div class="row mt-4">
             <div class="col p-0">
-
+              
               <date-picker id="sendDate"
                            label="Send Date"
                            :selectedDate="model.sendDate"
                            v-on:update="setSendDate"
                            required="true"
-                           v-validate="{model:model, error: 'Send Date Required'}"
-                           ></date-picker>
-              
+                           v-validate="{model:model, error: 'Send Date Required'}"></date-picker>
+
             </div>
             <div class="col p-0">
               <date-picker

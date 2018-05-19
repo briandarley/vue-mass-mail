@@ -3,7 +3,7 @@ import { Component, Prop } from "vue-property-decorator"
 import ConfirmDialog from '../common/dialogs/confirm-dialog';
 @Component({
   name: 'information',
-  dependencies: ['massMailSearchService', 'userService', 'spinnerService', 'toastService','dialogService'],
+  dependencies: ['massMailSearchService', 'userService', 'spinnerService', 'toastService', 'dialogService','massMailService'],
   components: { ConfirmDialog}
 })
 export default class Information extends Vue {
@@ -20,9 +20,10 @@ export default class Information extends Vue {
   }
 
   async onConfirmDelete() {
-    await this.massMailSearchService.delete(this.seletedMassMail);
+    
+    await this.massMailService.delete(this.seletedMassMail);
     this.seletedMassMail = "";
-    await this.loadCurrentMassMailings();
+    await this.loadInProgressMessages();
     this.toastService.success("Successfully removed MassMail");
   }
 
@@ -34,24 +35,27 @@ export default class Information extends Vue {
 
   }
 
-  async loadCurrentMassMailings() {
+  async loadInProgressMessages() {
     this.spinnerService.show();
-    const response = await this.massMailSearchService.getCurrentMassMailByUser(await this.userService.get());
-    this.massMailInProgress = response;
-
+    const response = await this.massMailService.getCurrentMassMailByUser(await this.userService.get());
+    this.massMailInProgress = response.data.entities;
+    
     this.spinnerService.hide();
   }
 
   async editMassMail() {
-    
     this.$router.push('/create-request/' + this.seletedMassMail);
   }
   mounted() {
     this.toastService.set(this);
-    this.loadCurrentMassMailings();
+    this.loadInProgressMessages();
 
   }
-  created() { }
+  async created() {
+    //call get user, this will ensure user is properly authenticated
+    await this.userService.get();
+
+  }
 
   createRequest() {
     this.$router.push('/create-request/');

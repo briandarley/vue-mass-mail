@@ -7,12 +7,46 @@ function userService(configurationReaderService, axios, serviceEndpoint) {
     _user: null,
     expireDate: null,
     reviewers: [],
+
+    isInRole(role) {
+      
+      if (!this._user) {
+        return false;
+      }
+      if (!this._user.profile.role || this._user.profile.role.length === 0) {
+        return false;
+      }
+
+      let roles = [];
+      if (Array.isArray(this._user.profile.role)) {
+        roles = this._user.profile.role.map(c => c.toUpperCase());
+      } else {
+        roles.push(this._user.profile.role.toUpperCase());
+      }
+      
+
+      if (roles.indexOf(role.toUpperCase()) > -1) {
+        return true;
+      }
+
+      if (role.toUpperCase() === "ADMIN") {
+        //Roles that are available in adtest and ad that represent members of identity management team
+        if (roles.indexOf("ITS_IDM USERS") > -1) {
+          return true;
+        }
+        if (roles.indexOf("ITS_IDM_PSX") > -1) {
+          return true;
+        }
+        
+      }
+      
+    },
+
     async get() {
       
       this._initializeManager();
       
       this._user = await this._mgr.getUser();
-
       
       if (!this._user) {
         this.login();
@@ -66,8 +100,7 @@ function userService(configurationReaderService, axios, serviceEndpoint) {
     },
     _initializeManager() {
       if (!this._mgr) {
-        const environment = configurationReaderService.get().environment;
-        const address = configurationReaderService.get()["security-" + environment];
+        const address = configurationReaderService.get()["security"];
         this._mgr = new Oidc.UserManager(address);
 
 

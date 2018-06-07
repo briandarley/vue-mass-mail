@@ -119,7 +119,8 @@ const router = new Router({
       name: 'administration',
       title: 'Administration',
       component: Administration,
-      icon: 'fa-user-secret'
+      icon: 'fa-user-secret',
+      role: ['admin']
       
 
     },

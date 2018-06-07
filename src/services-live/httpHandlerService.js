@@ -10,7 +10,7 @@ function httpHandlerService(axios, serviceEndpoint, userService) {
 
       const instance = axios.create({
         baseURL: serviceEndpoint,
-        headers: { "Access-Control-Allow-Origin": "*", "Authorization": `Bearer ${user.access_token}` },
+        headers: { "Access-Control-Allow-Origin": "*", "Authorization": `Bearer ${user.access_token}`, "Content-Type": "application/json" },
        
       });
 

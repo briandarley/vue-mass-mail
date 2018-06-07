@@ -49,7 +49,9 @@ import {Component ,Prop} from "vue-property-decorator"
     }
     decline() {
       var $ = this.$;
-      this.declineResponse();
+      if (this.declineResponse) {
+        this.declineResponse();
+      }
       this.userInput = "";
       $("#" + this.id).modal('hide');
     }

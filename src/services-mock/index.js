@@ -2,10 +2,10 @@ import injector from 'vue-inject';
 import "./massMailSearchService";
 //import "./userService";
 import "./departmentSchoolLookupService";
-import "./audienceCriteriaService";
-import "./sendMessageService";
+//import "./audienceCriteriaService";
+//import "./sendMessageService";
 import "./departmentLookupService.js";
-import "./administratorService.js";
+//import "./administratorService.js";
 
 function apiUrlBuilder(configurationReaderService) {
   return function (path) {

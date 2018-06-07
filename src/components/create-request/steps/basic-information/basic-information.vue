@@ -1,5 +1,5 @@
 <template>
-  <form id="basic-information" class="needs-validation" novalidate>
+  <form id="basic-information" class="needs-validation" autocomplete="off" novalidate>
     
       <div class="card mt-4">
         <div class="card-header bg-primary text-light">Create Mass Mail - Basic Information</div>

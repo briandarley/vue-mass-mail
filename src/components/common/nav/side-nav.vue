@@ -17,14 +17,28 @@
   import Vue from "vue"
   import {Component ,Prop} from "vue-property-decorator"
   import Router from '../../../router/index';
-
-  @Component({})
+  
+  @Component({
+    dependencies: ['userService'],
+  })
   export default class SideNav extends Vue{
     
 
     routes() {
       return Router.options.routes.filter((navitem) => {
-        return navitem.path !== "*" && navitem.navigable !== false;
+        //userService
+        //console.log(navitem.role)
+        if (navitem.role) {
+          const any = navitem.role.map(c => this.userService.isInRole(c)).some(c => c)
+          //console.log(this.userService.isInRole("admin"));
+          if (any) {
+            return navitem.path !== "*" && navitem.navigable !== false;
+          }
+        }
+        else {
+          return navitem.path !== "*" && navitem.navigable !== false;
+        }
+        
       });
     }
     routePath(navitem) {

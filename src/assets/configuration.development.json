@@ -1,0 +1,17 @@
+{
+
+  "environment": "development",
+  "baseURL": "http://localhost:8080/",
+  "serviceEndpoint": "http://localhost:13002/v1/",
+  "departmentsEndpoint": "https://itsappsspt.unc.edu/myaccounts/webresources/utilities/departments",
+  "security": {
+    "authority": "http://its-idm-tst-web.adtest.unc.edu/identityserver",
+    "client_id": "vue-local-client",
+    "redirect_uri": "http://localhost:8080/call-back",
+    "response_type": "id_token token",
+    "scope": "openid profile mass-mail-business",
+    "post_logout_redirect_uri": "http://localhost:8080"
+  }
+}
+
+

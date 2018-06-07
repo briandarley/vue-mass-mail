@@ -4,11 +4,15 @@ import SearchForm from './modules/search-form.vue';
 import Pagination from './modules/pagination.vue';
 import ConfirmDialog from '../common/dialogs/confirm-dialog.vue';
 import SendMessageDialog from '../common/dialogs/send-message-dialog.vue';
+import DenyRequestDialog from '../common/dialogs/deny-request-dialog.vue';
+import TabbedControl from '../common/tabbed-control/tabbed-control.vue';
+import TabbedItem from '../common/tabbed-control/tabbed-item.vue';
+
 import numeral from 'numeral';
 @Component({
   name: 'view-request',
-  components: { SearchForm, Pagination, ConfirmDialog, SendMessageDialog },
-  dependencies: ['$', 'massMailSearchService', 'userService', 'spinnerService', 'toastService', 'dialogService','sendMessageService'],
+  components: { SearchForm, Pagination, ConfirmDialog, SendMessageDialog, DenyRequestDialog, TabbedControl, TabbedItem },
+  dependencies: ['$', 'massMailService', 'userService', 'spinnerService', 'toastService', 'dialogService','sendMessageService'],
   filters: {
     formatNumber: (value) => {
       return numeral(value).format("0,0");
@@ -30,6 +34,21 @@ export default class ViewRequest extends Vue {
     search: this.onFilter
   }
   _pageIndexFunc
+
+  async onSendMessage(message) {
+    this.spinnerService.show();
+
+    try {
+      await this.sendMessageService.send(message);
+      this.toastService.success("Successfully sent message to user");
+    } catch (e) {
+      console.log(e);
+      this.toastService.error("Failed to send message to user");
+    } finally {
+      this.spinnerService.hide();
+    }
+
+  }
   onPageIndexChanged(index) {
     this.pageIndex = index;
 
@@ -43,12 +62,44 @@ export default class ViewRequest extends Vue {
         status: this.status
       };
 
-      const request = await this.massMailSearchService.getRecords(criteria);
+      const request = await this.massMailService.getRecords(criteria);
+      
       this.records = request.records;
       this.spinnerService.hide();
     }, 100);
   }
+  async onDenyMassMail(model,comment) {
 
+    try {
+      if (model.type === 'student') {
+        await this.massMailService.denyStudentsRequest(model.id, comment);
+      }
+      else if (model.type === 'employee') {
+        await this.massMailService.denyEmployeesRequest(model.id, comment);
+      }
+      await this.loadData();
+      this.toastService.success("Successfully denied " + model.id);
+    } catch (e) {
+      console.log(e);
+      this.toastService.error("Failed to update record");
+    } 
+    
+  }
+  async onApproveMassMail(model) {
+    try {
+      if (model.type === 'student') {
+        await this.massMailService.approveStudentsRequest(model.id);
+      }
+      else if (model.type === 'employee') {
+        await this.massMailService.approveEmployeesRequest(model.id);
+      }
+      await this.loadData();
+      this.toastService.success(`Successfully approved ${model.type} ${model.id}`);
+    } catch (e) {
+      console.log(e);
+      this.toastService.error("Failed to update record");
+    } 
+  }
   async onFilter(text, status) {
     
     if (!status) {
@@ -64,15 +115,16 @@ export default class ViewRequest extends Vue {
       textFilter: text,
       status: status
     };
-
-    const request = await this.massMailSearchService.getRecords(criteria);
+    
+    const request = await this.massMailService.getRecords(criteria);
+    
     this.records = request.records;
+
     this.totalRecords = request.totalRecords;
 
 
   }
   async loadData() {
-    this.toastService.set(this);
     this.spinnerService.show();
 
     const criteria = {
@@ -81,9 +133,13 @@ export default class ViewRequest extends Vue {
       status: this.status
     };
 
-    const request = await this.massMailSearchService.getRecords(criteria);
+    const request = await this.massMailService.getRecords(criteria);
+
+    
     this.records = request.records;
+
     this.totalRecords = request.totalRecords;
+
     this.spinnerService.hide();
 
   }
@@ -104,8 +160,14 @@ export default class ViewRequest extends Vue {
 
     this.spinnerService.show();
 
-    record.history = await this.massMailSearchService.getRecordHistory(record.id);
+    const historyTask = this.massMailService.getRecordHistory(record.id);
+    const commentsTask = this.massMailService.getRecordComments(record.id);
 
+    const response = await Promise.all([commentsTask, historyTask]);
+
+    record.comments = response[0];
+    record.history = response[1];
+    console.log(record.comments);
     this.spinnerService.hide();
     record.showHistory = !record.showHistory;
 
@@ -129,17 +191,49 @@ export default class ViewRequest extends Vue {
     this.dialogService.initialize(this.$refs.sendMessage);
     this.dialogService.title = `MassMail Id ${id}`;
     this.dialogService.confirmResponse = this.onSendMessage;
-
-
-
-
+    
 
   }
 
+  _initializeDenyMessageDialog(record,type) {
+    this.dialogService.initialize(this.$refs.denyRequest);
+    this.dialogService.title = `Deny MassMail ${record.subject}?`;
+    this.dialogService.entity = { id: record.id,type: type };
+    this.dialogService.confirmResponse = this.onDenyMassMail;
+
+  }
+
+  _initializeApproveMessageDialog(record, type) {
+    this.dialogService.initialize(this.$refs.denyRequest);
+    this.dialogService.title = `Approve ${record.subject}?`;
+    this.dialogService.entity = { id: record.id, type: type };
+
+    this.dialogService.message = `<div class="validation-error">
+          <h3 class="mr-2 text-success d-inline-block"><i class="fa fa-exclamation-triangle"></i> </h3>
+          <span class="message">Approve Record for ${type}?<br/><br/></span></div>`;
+
+
+    this.dialogService.confirmResponse = this.onApproveMassMail;
+
+  }
+
+  approveMessage(record,type) {
+    this._initializeApproveMessageDialog(record, type);
+    this.$refs.confirmCancel.show();
+    
+  }
+  denyMessage(record, type) {
+    this._initializeDenyMessageDialog(record,type);
+    this.$refs.denyRequest.show();
+
+  }
+
+
   async onCancelMassMail() {
-    this.toastService.success(`Canceled MassMail Request ${this._cancelRecordId}`);
-    this.massMailSearchService.delete(this._cancelRecordId);
+    await this.massMailService.delete(this._cancelRecordId);
     await this.loadData();
+
+    this.toastService.success(`Canceled MassMail Request ${this._cancelRecordId}`);
   }
   _cancelRecordId = 0;
   cancel(id) {
@@ -149,20 +243,7 @@ export default class ViewRequest extends Vue {
 
   }
 
-  async onSendMessage(message) {
-    this.spinnerService.show();
-
-    try {
-      await this.sendMessageService.send(message);
-      this.toastService.success("Successfully sent message to user");
-    } catch (e) {
-      console.log(e);
-      this.toastService.error("Failed to send message to user");
-    } finally {
-      this.spinnerService.hide();
-    }
-    
-  }
+  
 
   sendMessage(id) {
     const record = this.records.find(c => c.id === id);
@@ -173,6 +254,11 @@ export default class ViewRequest extends Vue {
 
   async created() {
 
+
+  }
+
+  async test() {
+    await this.loadData();
 
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div id="audience-criteria">
-    
+
     <div class="card mt-4">
       <div class="card-header bg-primary text-light">Create Mass Mail - Audience Criteria</div>
       <div class="card-body">
@@ -8,7 +8,7 @@
           <div class="col-md-12 h5 text-primary text-right">
             Audience Size: <span id="targetAudience"></span>
           </div>
-          
+
         </div>
         <h6 class="mt-3">Create Mass Mail - Filter Criteria</h6>
         <div class="row mt-4">
@@ -20,10 +20,10 @@
               <div class="col-sm-7 p-0">
                 <select class="form-control col-sm-8" v-model="model.targetPopulation" @change="calculateAudience">
                   <option value="">--Select Target Population --</option>
-                  <option>Employees and Students</option>
-                  <option>Employees</option>
-                  <option>Students</option>
-                  <option>Testing Only</option>
+                  <option value="EMPLOYEES_STUDENTS">Employees and Students</option>
+                  <option value="EMPLOYEES">Employees</option>
+                  <option value="STUDENTS">Students</option>
+                  <option value="TESTING_ONLY">Testing Only</option>
                 </select>
                 <pop-over class="ml-2 align-self-center"
                           title="Subject"
@@ -31,6 +31,8 @@
                           link-text=""></pop-over>
               </div>
             </div>
+           
+            
           </div>
         </div>
         <transition name="fade-h-o">
@@ -64,7 +66,7 @@
               <div class="col-sm-7 p-0">
                 <div class="input-group ">
                   <div class="input-group-append ">
-                    <input type="text" class="form-control col-10" v-model="targetPerson" placeholder="ONYEN, email, PID" @keydown="clearCheckUserStatus" />
+                    <input type="text" class="form-control col-10" v-model="targetPerson" placeholder="ONYEN/PID" @keydown="clearCheckUserStatus" />
                     <span class="input-group-text" @click="targetPerson = ''"><i class="fa fa-remove"></i></span>
 
                   </div>
@@ -78,8 +80,9 @@
           </div>
         </div>
       </div>
-</div>
-  
+    </div>
+    <message-dialog id="message"
+                    ref="messageDialog"></message-dialog>
   </div>
 </template>
 <script src="./audience-criteria.js"></script>

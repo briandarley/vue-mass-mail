@@ -38,7 +38,8 @@ export default class Information extends Vue {
   async loadInProgressMessages() {
     this.spinnerService.show();
     const response = await this.massMailService.getCurrentMassMailByUser(await this.userService.get());
-    this.massMailInProgress = response.data.entities;
+    
+    this.massMailInProgress = response;
     
     this.spinnerService.hide();
   }

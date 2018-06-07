@@ -26,7 +26,7 @@
                       <div class="container border border-primary">
                         <div class="row pt-1" v-for="role in roles">
                           <div class="form-inline">
-                            <input type="checkbox" class="form-contol form-check form-control-lg ml-2" @change="showHide(role,$event)" />
+                            <input type="checkbox" class="form-contol form-check form-control-lg ml-2" @change="showHide(role,$event)" v-model="role.checked" />
                             <label class="ml-2">  {{role.name}}</label>
                           </div>
                         </div>
@@ -100,17 +100,35 @@
     departmentNumber = '';
     showDepartments = false;
 
-    confirm() {
+    async confirm() {
+      const $ = this.$;
+      
+            
 
-      //const $ = this.$;
-      //this.dialogService.confirmResponse();
-      //
-      //$("#" + this.id).modal('hide');
+      const model = {
+        onyen: this.onyen,
+        roles: this.roles.filter(c => !!c.checked).map(c => {
+          return {name: c.name}
+        })
+      };
+
+      if (this.dialogService.entity) {
+        model.onyen = this.dialogService.entity.name;
+        await this.administratorService.updateUser(model)
+      }
+      else {
+        await this.administratorService.addUser(model)
+      }
+      
+      await this.dialogService.confirmResponse();
+
+      this.cleanup();
+      $("#" + this.id).modal('hide');
     }
     decline() {
       const $ = this.$;
       this.dialogService.declineResponse();
-
+      this.cleanup();
       $("#" + this.id).modal('hide');
     }
 
@@ -133,25 +151,59 @@
       this.assignedDepartments = await this.administratorService.getAssignedDepartments(this.onyen);
     }
 
-    async mounted() {
-      this.roles = await this.administratorService.getRoles();
+    
 
-    }
-    showHide(role,ev) {
-      if (role.name !==   "Approver") {
+
+    showHide(role, ev) {
+
+      const roles = this.roles.slice();
+      //const selectedRole = roles.filter(c => c.name === role.name)[0];
+      //selectedRole.checked = !selectedRole.checked;
+          
+
+      
+
+      this.roles = roles;
+
+      if (role.name.toUpperCase() !==   "APPROVER") {
         return;
       }
-
-      this.showDepartments = ev.target.checked;
+      
+      //this.showDepartments = ev.target.checked;
 
     }
 
-    show() {
-      const $ = this.$;
+    cleanup() {
+      this.roles = [];
+      this.onyen = '';
+    }
 
+
+    
+
+    async show() {
+      this.cleanup();
+      const $ = this.$;
+      this.roles = (await this.administratorService.getRoles()).slice();
+
+      if (this.dialogService.entity) {
+        const user = await this.administratorService.getUser(this.dialogService.entity.name);
+        this.onyen = user.onyen;
+
+        for (let i = 0; i < user.roles.length; i++) {
+          let role = this.roles.filter(c => c.name === user.roles[i].name);
+          if (role) {
+            role[0].checked = true;
+          }
+          
+        }
+        
+
+
+      }
       this.title = this.dialogService.title;
       this.message = this.dialogService.message;
-
+      
 
       $("#" + this.id).modal('show');
     }

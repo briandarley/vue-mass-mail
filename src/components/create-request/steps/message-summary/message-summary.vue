@@ -6,11 +6,11 @@
         <div class="row mt-4">
           <div class="col ">
             <label class="mr-1">Send Date</label>
-            <span class="font-weight-bold">{{model.sendDate}}</span>
+            <span class="font-weight-bold">{{model.sendDate | formatDate}}</span>
           </div>
           <div class="col">
             <label class="mr-1">Expiration Date</label>
-            <span class="font-weight-bold">{{model.expirationDate}}</span>
+            <span class="font-weight-bold">{{model.expirationDate | formatDate}}</span>
           </div>
         </div>
         <div class="row mt-4">
@@ -113,9 +113,15 @@
                         <div class="row">
                           <div class="col-md-12">
                             <p class="info">
-                              <i class="fa fa-info-circle text-warning"></i>
-                              Send test messages to others or yourself.
-                              If you routinely use MassMail and send test messages to other persons, add the person to your favorites. This list will be persisted to your profile
+
+                              <div class="validation-error">
+                                <h3 class="mr-2 text-warning d-inline-block"><i class="fa fa-info-circle text-warning"></i> </h3>
+                                <span class="message">
+                                  Send test messages to others or yourself.
+                                  <br />
+                                  If you routinely use MassMail and send test messages to other persons, add the person to your favorites. This list will be persisted to your profile
+                                </span>
+                              </div>
                             </p>
                           </div>
                         </div>
@@ -123,8 +129,7 @@
                           <div class="col-sm-12">
                             <label>Favorite Reviewers</label>
                             <div class="input-group">
-                              <select class="form-control" v-model="selectedReviewer">
-                                <option value=""></option>
+                              <select class="form-control" v-model="selectedReviewer" size="3">
                                 <option v-for="item in reviewers">{{item}}</option>
                               </select>
                               <a href="javascript:void(0)" class="btn btn-outline-light" @click="addReviewer">
@@ -141,9 +146,9 @@
 
                     <div class="row mt-4 ">
                       <div class="col-sm-9 ">
-                        <input type="text" class="form-control" placeholder="Email Address" />
+                        <input type="text" class="form-control" placeholder="Email Address" v-model="singleTestRecipient" />
                       </div>
-                      <a href="javascript:void(0);" class="btn btn-labeled btn-primary text-light ml-1">
+                      <a href="javascript:void(0);" class="btn btn-labeled btn-primary text-light ml-1" @click="sendTestMessage" :class="{disabled: !singleTestRecipient && !useDefaultReviewers}">
                         <span class="btn-label "><i class="fa fa-telegram"></i></span>Send Test
                       </a>
 
@@ -167,10 +172,11 @@
                   ref="addReviewerDialog"
                   :confirmResponse="onAddReviewer"></input-dialog>
     <preview-dialog id="previewDialog"
-                  title="Preview Message"
-                  :message="model.content"
-                  ref="previewDialog"
-                  ></preview-dialog>
+                    title="Preview Message"
+                    :message="model.content"
+                    ref="previewDialog"></preview-dialog>
+    <confirm-dialog id="confirmSendTestMsg"
+                    ref="confirmSendTestMsgDialog"></confirm-dialog>
   </div>
 </template>
 <script src="./message-summary.js"></script>

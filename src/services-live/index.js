@@ -2,8 +2,10 @@ import injector from 'vue-inject';
 import "./userService";
 import './massMailService';
 import './httpHandlerService';
-
-
+import './audienceCriteriaService';
+import './favoriteReviewerService';
+import "./sendMessageService";
+import "./administratorService";
 
 
 

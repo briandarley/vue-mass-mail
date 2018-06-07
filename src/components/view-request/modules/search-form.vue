@@ -13,11 +13,13 @@
 
           <label class="mr-2">Status</label>
           <select class="form-control" v-model="status" @change="statusChanged">
-            <option>Needs Review</option>
-            <option>Running Tonight</option>
-            <option>Pending/Expired</option>
-            <option>Failed/Needs Review</option>
-            <option>Archive</option>
+            <option value="CREATED">Needs Review</option>
+            <!--<option value="RUNNING_TONIGHT">Running Tonight</option>-->
+            <option value="PENDING">Pending/Expired</option>
+            <option value="FAILED">Failed/Needs Review</option>
+            <option value="SAVED">Saved</option>
+            <option value="ARCHIVE">Archive</option>
+            <option value="ALL">All Records</option>
           </select>
 
         </div>

@@ -9,7 +9,7 @@ Component({
 
 export default class SearchForm extends Vue {
   textFilter = '';
-  status = 'Needs Review';
+  status = 'CREATED';
   @Prop() searchHandler;
 
   _searchFunc
@@ -33,6 +33,10 @@ export default class SearchForm extends Vue {
 
   clearSearchRequest() {
 
+  }
+
+  async mounted() {
+    await this.searchHandler.search('', this.status);
   }
 
   

@@ -246,6 +246,7 @@ function massMailSearchService(apiUrlBuilder, axios, userService, moment) {
     },
 
     initializeModel() {
+      console.log("Initializing Mock Model");
       this.model = {
         isNew: true,
         sendDate: null,

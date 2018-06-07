@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-
+   
     <search-form :searchHandler="searchHandler"></search-form>
 
     <div class="row">
@@ -17,7 +17,7 @@
           </div>
         </transition>
       </div>
-      
+
     </div>
 
 
@@ -52,21 +52,21 @@
                   <li>
                     <router-link :to="{path: 'create-request/' + record.id}"><i class="fa fa-pencil mr-2"></i> Edit</router-link>
                   </li>
-                  <li><a href="javascript:void(0);" @click="sendMessage(record.id)"><i class="fa fa-envelope-o mr-2"></i> Send Message</a></li>
-                  <li><a href="javascript:void(0);" @click="cancel(record.id)"><i class="fa fa-times-circle mr-2"></i> Cancel</a></li>
+                  <li v-is-in-role="'approver,admin'"><a href="javascript:void(0);" @click="sendMessage(record.id)"><i class="fa fa-envelope-o mr-2"></i> Send Message</a></li>
+                  <li v-is-in-role="'approver'" v-is-author="record"><a href="javascript:void(0);" @click="cancel(record.id)"><i class="fa fa-times-circle mr-2"></i> Cancel</a></li>
                   <li><a href="javascript:void(0);"><i class="fa fa-copy mr-2"></i> Copy</a></li>
-                  <li class="dropdown-submenu">
+                  <li class="dropdown-submenu" v-is-in-role="'approver'" v-is-status="{record: record, status: 'CREATED',population: 'STUDENTS'}">
                     <a href="javascript:void(0);" tabindex="-1"><i class="fa fa-user mr-2"></i> Students Action</a>
                     <ul class="dropdown-menu">
-                      <li><a href="javascript:void(0);"><i class="fa fa-thumbs-o-up mr-2"></i> Approve</a></li>
-                      <li><a href="javascript:void(0);"><i class="fa fa-thumbs-o-down mr-2"></i> Deny</a></li>
+                      <li><a href="javascript:void(0);" @click="approveMessage(record, 'student')"><i class="fa fa-thumbs-o-up mr-2"></i> Approve</a></li>
+                      <li><a href="javascript:void(0);" @click="denyMessage(record, 'student')"><i class="fa fa-thumbs-o-down mr-2"></i> Deny</a></li>
                     </ul>
                   </li>
-                  <li class="dropdown-submenu">
+                  <li class="dropdown-submenu" v-is-in-role="'approver'" v-is-status="{record: record, status: 'CREATED', population: 'EMPLOYEES'}">
                     <a href="javascript:void(0);" tabindex="-1"><i class="fa fa-user-o mr-2"></i> Employee Action</a>
                     <ul class="dropdown-menu">
-                      <li><a href="javascript:void(0);"><i class="fa fa-thumbs-o-up mr-2"></i> Approve</a></li>
-                      <li><a href="javascript:void(0);"><i class="fa fa-thumbs-o-down mr-2"></i> Deny</a></li>
+                      <li><a href="javascript:void(0);" @click="approveMessage(record, 'employee')"><i class="fa fa-thumbs-o-up mr-2"></i> Approve</a></li>
+                      <li><a href="javascript:void(0);" @click="denyMessage(record, 'employee')"><i class="fa fa-thumbs-o-down mr-2"></i> Deny</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -87,28 +87,60 @@
                 {{record.subject}}
               </div>
               <transition name="fade-h-o">
-                <div v-if="record.showHistory" class="overflow-hidden">
-                  <span class="font-weight-bold">Record History</span>
-                  <table class="table table-sm table-borderless small">
-                    <thead class="bg-dark text-light">
-                      <tr>
-                        <td>Date</td>
-                        <td>Action</td>
-                        <td>Performed By</td>
-                        <td>First Name</td>
-                        <td>Last Name</td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="item in record.history">
-                        <td>{{item.date}}</td>
-                        <td>{{item.action}}</td>
-                        <td>{{item.user}}</td>
-                        <td>{{item.firstName}}</td>
-                        <td>{{item.lastName}}</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div v-if="record.showHistory" class="overflow-hidden hidden-tables">
+                  <tabbed-control tabs="Comments,Record History">
+
+                    <tabbed-item slot="tab_0">
+                      <table class="table table-sm table-borderless small">
+                        <thead class="bg-dark text-light">
+                          <tr>
+                            <td>Date</td>
+                            <td>Type</td>
+                            <td>Author</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <template v-for="(comment, index) in record.comments">
+                            <tr :class="{'alt': index % 2 == 0}">
+                              <td>{{comment.createDate | formatDate}}</td>
+                              <td>{{comment.commentTypeCode}}</td>
+                              <td>{{comment.createUser}}</td>
+                            </tr>
+                            <tr :class="{'alt': index % 2 == 0}">
+                              <td colspan="3">
+                                {{comment.comment}}
+                              </td>
+                            </tr>
+                          </template>
+                        </tbody>
+                      </table>
+                    </tabbed-item>
+                    <tabbed-item slot="tab_1">
+                      <table class="table table-sm table-borderless small">
+                        <thead class="bg-dark text-light">
+                          <tr>
+                            <td>Date</td>
+                            <td>Action</td>
+                            <td>Performed By</td>
+                            <td>Name</td>
+
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(item, index) in record.history" :class="{'alt': index % 2 == 0}">
+                            <td>{{item.date | formatDate}}</td>
+                            <td>{{item.action}}</td>
+                            <td>{{item.user}}</td>
+                            <td>{{item.name}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </tabbed-item>
+
+                  </tabbed-control>
+                  
+
+
                 </div>
               </transition>
               <div class="text-center h5 ">
@@ -120,20 +152,23 @@
       </tbody>
     </table>
     <div class="col" style="height:70px;">
-        <transition name="fade">
-          <div v-show="totalRecords > pageSize">
-            <pagination :totalRecords="totalRecords"
-                        :index="pageIndex"
-                        :navHandler="pagingHandler"
-                        class="d-inline-block float-right mt-3"></pagination>
-          </div>
-        </transition>
-      </div>
-      <confirm-dialog id="confirmCancel"
-                      ref="confirmCancel"></confirm-dialog>
-      <send-message-dialog id="sendMessage"
-                           ref="sendMessage"></send-message-dialog>
+      <transition name="fade">
+        <div v-show="totalRecords > pageSize">
+          <pagination :totalRecords="totalRecords"
+                      :index="pageIndex"
+                      :navHandler="pagingHandler"
+                      class="d-inline-block float-right mt-3"></pagination>
+        </div>
+      </transition>
+    </div>
+    <confirm-dialog id="confirmCancel"
+                    ref="confirmCancel"></confirm-dialog>
+    <send-message-dialog id="sendMessage"
+                         ref="sendMessage"></send-message-dialog>
+    <deny-request-dialog id="denyRequest"
+                         ref="denyRequest"></deny-request-dialog>
   </div>
 </template>
 <script src="./view-request.js"></script>
 <style lang="scss" src="./view-request.scss"></style>
+<a href="view-request.vue">view-request.vue</a>

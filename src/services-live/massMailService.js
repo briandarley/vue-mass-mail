@@ -28,225 +28,55 @@ function massMailService(apiUrlBuilder, httpHandlerService, userService, moment,
       
       return this.model;
     },
-    //getCurrentMassMailById(id) {
-    //  this._initializeLocalStore();
-    //  const dataStore = this.dataStore.slice();
-    //  return new Promise((result, reject) => {
+    async getRecords(criteria) {
+      const handler = await httpHandlerService.get();
 
-    //    setTimeout(() => {
-    //      try {
-    //        const response = dataStore.find(item => parseInt(item.id) === parseInt(id));
-    //        this.model = response;
-    //        this.model.isNew = false;
+      let params = "";
+      for (let property in criteria) {
+        if (criteria.hasOwnProperty(property)) {
+          params += `${property}=${criteria[property]}&`;
+        }
+      }
+      params = params.replace(/\&$/, "");
 
+      const responses = await handler.get(`messages?${params}`);
+      
+      return responses.data;
 
-    //        return result(this.model);
-    //      } catch (e) {
-    //        console.log(e);
-    //        reject("Unable to find record");
-    //      }
-    //    }, 1000);
-    //  });
-    //},
-    //getCurrentMassMailByUser(user) {
-    //  this._initializeLocalStore();
 
+    },
+    async getRecordComments(messageId) {
+      const handler = await httpHandlerService.get();
+      const responses = await handler.get(`messages/${messageId}/comments`);
+      return responses.data;
 
-    //  return new Promise((result, reject) => {
 
-    //    setTimeout(() => {
+    },
+    async getRecordHistory(messageId) {
+      const handler = await httpHandlerService.get();
 
-    //      return result(
+      const nameMappingsRequest = handler.get(`actions/${messageId}/name-mappings`);
+      const actionHistoryRequest = handler.get(`actions/${messageId}`);
 
+      const data = await Promise.all([actionHistoryRequest, nameMappingsRequest]);
+      
+      const actionHistory = data[0].data;
+      const nameMappings = data[1].data;
 
+      const response = actionHistory.map(c => {
 
-    //        this.dataStore.filter(item => item.author === user)
+        var name = nameMappings.find(d => d.onyen === c.createUser).name;
 
-    //      );
-    //    },
-    //      1000);
-    //  });
-    //},
-    //getRecords(criteria) {
-    //  this._initializeLocalStore();
+        return Object.assign({ name: name }, { date: c.createDate, action: c.actionCode, user: c.createUser});
 
-
-    //  return new Promise((result, reject) => {
-
-
-    //    if (!criteria) {
-    //      criteria = { index: 0, pageSize: 10, status: 'Needs Review' };
-    //    }
-
-    //    const start = criteria.index * criteria.pageSize;
-
-    //    let records = this.dataStore.slice();
-
-
-    //    switch (criteria.status) {
-    //      case 'Needs Review':
-    //        records = records
-    //          .filter(c =>
-    //            c.status.toUpperCase().indexOf("PENDING") > -1
-    //            && !moment().isAfter(c.expirationDate + 'Z')
-    //          ).slice();
-
-
-    //        break;
-    //      case 'Pending/Expired':
-    //        records = records
-    //          .filter(c => c.status.toUpperCase().indexOf("PENDING") > -1
-    //            && moment().isAfter(c.expirationDate + 'Z')
-    //          ).slice();
-
-    //        break;
-    //      case 'Running Tonight':
-    //        records = records
-    //          .filter(c => {
-
-    //            if (!(c.status.toUpperCase().indexOf("PENDING") === -1 ||
-    //              c.status.toUpperCase().indexOf("SENT") === -1 ||
-    //              c.status.toUpperCase().indexOf("CANCELED") === -1)) {
-    //              return false;
-    //            }
-    //            var nowDt = new Date().toDateString();
-
-    //            var dt = new Date(c.expirationDate);
-    //            var dFuture = new Date(dt.setDate(dt.getDate())).toDateString();
-
-
-    //            return (nowDt === dFuture);
-
-
-    //          }
-
-    //          ).slice();
-    //        break;
-    //      case 'Failed/Needs Review':
-    //        records = records
-    //          .filter(c => {
-
-    //            if (c.status.toUpperCase().indexOf("APPROVED") === -1 ||
-    //              c.status.toUpperCase().indexOf("SENT") > -1 ||
-    //              c.status.toUpperCase().indexOf("PENDING") > -1 ||
-    //              c.status.toUpperCase().indexOf("CANCELED") > -1) {
-    //              return false;
-    //            }
-    //            var nowDt = new Date().toDateString();
-
-    //            var dt = new Date(c.expirationDate);
-    //            var dFuture = new Date(dt.setDate(dt.getDate())).toDateString();
-
-
-    //            return (nowDt > dFuture);
-
-
-    //          }
-
-    //          ).slice();
-    //        break;
-    //      case 'Archive':
-    //        records = records
-    //          .filter(c => {
-
-    //            //if (c.status.toUpperCase().indexOf("APPROVED") === -1 ||
-    //            //  c.status.toUpperCase().indexOf("SENT") > -1 ||
-    //            //  c.status.toUpperCase().indexOf("PENDING") > -1 ||
-    //            //  c.status.toUpperCase().indexOf("CANCELED") > -1) {
-    //            //  return false;
-    //            //}
-    //            var nowDt = new Date().toDateString();
-
-    //            var dt = new Date(c.expirationDate);
-    //            var dFuture = new Date(dt.setDate(dt.getDate())).toDateString();
-
-
-    //            return (nowDt > dFuture);
-
-
-    //          }
-
-    //          ).slice();
-    //        break;
-    //      default:
-    //    }
-
-
-
-
-
-    //    //select
-    //    //--SUBSTRING(t.content, 0, 10) content
-    //    //t.*
-    //    //  from #tmp2 t
-    //    //where
-    //    //status like '%approved%'
-    //    //and status not like '%pending%'
-    //    //and status not like '%sent%'
-    //    //order by id desc
-
-
-
-
-
-
-    //    if (criteria.textFilter) {
-    //      criteria.textFilter = criteria.textFilter.trim();
-    //      if (criteria.textFilter.match(/^\d+$/)) {
-    //        records = records.filter(c => parseInt(c.id) === parseInt(criteria.textFilter));
-    //      }
-    //      else {
-    //        const rec1 = records.filter(c => c.subject.toUpperCase().indexOf(criteria.textFilter.toUpperCase()) > -1);
-    //        const rec2 = records.filter(c => c.author.toUpperCase().startsWith(criteria.textFilter.toUpperCase()));
-
-    //        records = rec1.concat(rec2);
-    //      }
-    //    }
-
-
-
-
-
-    //    setTimeout(() => {
-    //      return result({
-    //        records: records
-    //          .slice(start, start + criteria.pageSize)
-    //          .sort((a, b) => { return a.id < b.id; }),
-    //        totalRecords: records.length
-    //      });
-    //    },
-    //      1000);
-    //  });
-    //},
-    //_initializeLocalStore() {
-    //  if (this.dataStore.length === 0) {
-    //    //this.dataStore = jsonCurrentPendingMassMail;
-    //    //this.recordHistory = jsonRecordHistory;
-    //  }
-    //},
-    //getRecordHistory(id) {
-
-    //  return new Promise((result, reject) => {
-    //    setTimeout(() => {
-    //      return result(this.recordHistory);
-    //    },
-    //      1000);
-
-    //  });
-
-
-    //},
-    //delete(id) {
-    //  return new Promise(result => {
-    //    var item = this.dataStore.find(item => item.id === id);
-    //    var index = this.dataStore.indexOf(item);
-    //    this.dataStore.splice(index, 1);
-    //    result();
-    //  });
-    //},
+      });
+      return response;
+    },
+    
     async delete(massMailId) {
       const handler = await httpHandlerService.get();
       const user = await userService.get();
+      
       await handler.delete(`user-messages/${user.profile.name}/${massMailId}`);
 
     },
@@ -257,7 +87,10 @@ function massMailService(apiUrlBuilder, httpHandlerService, userService, moment,
       };
       try {
         const handler = await httpHandlerService.get();
-        pendingMessages = await handler.get(`user-messages/${user.profile.name}`);
+        
+
+        pendingMessages = await handler.get(`user-messages/${user.profile.sub}`);
+        
       } catch (e) {
         if (e.message.indexOf("400") > -1) {
           return pendingMessages;
@@ -265,7 +98,7 @@ function massMailService(apiUrlBuilder, httpHandlerService, userService, moment,
         throw e;
       }
       
-      return pendingMessages;
+      return pendingMessages.data;
 
     },
     async save() {
@@ -278,9 +111,73 @@ function massMailService(apiUrlBuilder, httpHandlerService, userService, moment,
         this.model.author = result.data.author;
       } else {
         await handler.put("messages/" + this.model.id, this.model);
+        
       }
       this.model.isNew = false;
 
+    },
+
+    async denyStudentsRequest(massMailId, comment) {
+      const handler = await httpHandlerService.get();
+
+      //DENIED_EMPLOYEES
+      //DENIED_STUDENTS
+
+      const model = {
+        messageId: massMailId,
+        actionCode: 'DENIED_STUDENTS',
+        comment: comment
+      };
+      
+
+      const result = await handler.put(`actions/${massMailId}`, model);
+      return result;
+
+
+    },
+    async denyEmployeesRequest(massMailId, comment) {
+      const handler = await httpHandlerService.get();
+
+      //DENIED_EMPLOYEES
+      //DENIED_STUDENTS
+
+      const model = {
+        messageId: massMailId,
+        actionCode: 'DENIED_EMPLOYEES',
+        comment: comment
+      };
+
+
+      const result = await handler.put(`actions/${massMailId}`, model);
+      return result;
+
+
+    },
+
+    async approveStudentsRequest(massMailId) {
+      const handler = await httpHandlerService.get();
+
+      const model = {
+        messageId: massMailId,
+        actionCode: 'APPROVED_STUDENTS'
+      };
+
+
+      const result = await handler.put(`actions/${massMailId}`, model);
+      return result;
+    },
+
+    async approveEmployeesRequest(massMailId) {
+      const handler = await httpHandlerService.get();
+
+      const model = {
+        messageId: massMailId,
+        actionCode: 'APPROVED_EMPLOYEES'
+      };
+
+
+      const result = await handler.put(`actions/${massMailId}`, model);
+      return result;
     },
 
     initializeModel() {
@@ -293,6 +190,16 @@ function massMailService(apiUrlBuilder, httpHandlerService, userService, moment,
         targetEmployee: ''
       }
     },
+    async submitForReview() {
+      const handler = await httpHandlerService.get();
+
+      const model = {
+        messageId: this.model.id,
+        actionCode: 'CREATED'
+      };
+      await handler.put(`actions/${this.model.id}`, model);
+      return true;
+    }
 
 
   }

@@ -1,0 +1,29 @@
+@import "../../../assets/scss/variables";
+
+
+.tabbed-control {
+  margin-top: 20px;
+  border: 1px solid lighten( $athletics-navy, 60% );
+  background-color: $gray-100;
+  clear:both;
+  .nav {
+    border-bottom: 1px solid lighten( $athletics-navy, 60% );
+    background-color: $gray-100;
+  }
+
+  .nav-item {
+    background: $gray-500;
+    cursor: pointer;
+    a {
+      color: #fff;
+    }
+  }
+
+  .tab-content {
+    border: 1px solid $athletics-navy;
+  }
+
+  .alt {
+    background-color: #fff;
+  }
+}

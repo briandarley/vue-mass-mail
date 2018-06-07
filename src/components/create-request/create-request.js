@@ -7,7 +7,7 @@ import CreateRequestNav from '../common/nav/create-request-nav.vue';
 
 @Component({
   name: 'create-request',
-  dependencies: ['massMailSearchService', 'userService', 'toastService', 'spinnerService', '$', 'childRouteService', 'dialogService', 'eventBus', 'massMailService'],
+  dependencies: ['userService', 'toastService', 'spinnerService', '$', 'childRouteService', 'dialogService', 'eventBus', 'massMailService'],
   components: { ConfirmDialog, CreateRequestNav, MessageDialog }
 })
 export default class CreateRequest extends Vue {
@@ -45,7 +45,7 @@ export default class CreateRequest extends Vue {
 
 
 
-    if (this.model.errors.length > 0) {
+    if (this.model.errors && this.model.errors.length > 0) {
       this._initializeValidationMessageDialog();
 
       this.dialogService.show();
@@ -105,9 +105,40 @@ export default class CreateRequest extends Vue {
           <span class="message">The system would like to save your request at this time. The entry will be left in an incomplete status until fully completed allowing you to continue where you left at to resume entry.</span>`;
     this.dialogService.confirmResponse = this.save;
   }
+  _initializeConfirmCompleteDialog() {
+
+
+    this.dialogService.initialize(this.$refs.confirmDialog);
+    this.dialogService.title = "Confirm Complete?";
+    this.dialogService.message = `<div class="validation-error">
+          <h3 class="mr-2 text-success d-inline-block"><i class="fa fa-exclamation-circle"></i> </h3>
+          <div class="message">
+            <p>Submit MassMail for Review?
+              <br/>
+              No further edits will be permitted once submitted for review.</p>
+            
+          </div>`;
+    this.dialogService.confirmResponse = this.onSubmitForReview;
 
 
 
+  }
+
+  async onSubmitForReview() {
+    
+    try {
+      this.spinnerService.show();
+      await this.massMailService.submitForReview();
+      this.toastService.success("Successfully submitted MassMail.");
+      this.$router.push('/information/');
+      this.spinnerService.hide();
+
+    } catch (e) {
+      this.toastService.error("Failed to submit MassMail");
+    }
+    
+    
+  }
 
   async loadMassMail() {
     this.model = this.massMailService.model;
@@ -160,7 +191,7 @@ export default class CreateRequest extends Vue {
   onModelChanged(model) {
     //console.log(this.model);
     this.model = model;
-    this.massMailSearchService.model = model;
+    //this.massMailSearchService.model = model;
     this.massMailService.model = model;
     //console.log(this.model);
 
@@ -186,7 +217,7 @@ export default class CreateRequest extends Vue {
     //called before child views are mounted
     this.addEventHandlers();
     this.addControlBehavior();
-    this.massMailSearchService.clear();
+    //this.massMailSearchService.clear();
     this.massMailService.clear();
     this.bindKeyboardEvents();
     await this.initializeUserProfile();
@@ -211,7 +242,9 @@ export default class CreateRequest extends Vue {
 
       await this.massMailService.save();
 
-      this.model = this.massMailSearchService.model;
+      //this.model = this.massMailSearchService.model;
+      this.model = this.massMailService.model;
+
 
       if (isNew) {
         this._navigateToNextRoute();
@@ -230,6 +263,15 @@ export default class CreateRequest extends Vue {
 
 
   }
+
+
+
+
+  submitForReview() {
+    this._initializeConfirmCompleteDialog();
+    this.$refs.confirmDialog.show();
+  }
+
   test() {
     this.save();
     //let $ = this.$;
@@ -237,6 +279,6 @@ export default class CreateRequest extends Vue {
 
     //$(this.model).trigger("validate")
     //$("#basic-information").validator();
-    //$(this.massMailSearchService.model).trigger("validate")
+    
   }
 }

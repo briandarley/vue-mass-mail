@@ -7,7 +7,7 @@
         <div class="font-weight-bold h5 text-primary">Users</div>
       </div>
       <div class="col">
-        
+
       </div>
     </div>
     <div class="row">
@@ -20,26 +20,27 @@
               <th style="width: 40%"></th>
             </tr>
           </thead>
-          <tr>
-            <td>bdarley</td>
+          <tr v-for="user in this.users">
+            <td>{{user.name}}</td>
             <td>
-              admin, approver
-              
+              {{user.roles}}
             </td>
             <td class="text-primary text-right">
-              <a href="javascript:void(0)">Edit</a> |
-              <a href="javascript:void(0)">Remove</a>
+              <a href="javascript:void(0)" @click="editUser(user)">Edit</a> |
+              <a href="javascript:void(0)" @click="deleteUser(user)">Remove</a>
             </td>
           </tr>
         </table>
       </div>
     </div>
 
-    <button class="btn btn-primary pull-right mt-5 mb-3" @click="addUser">Add User</button>
+    <button class="btn btn-primary pull-right mt-5 mb-3 action-button" @click="addUser">Add User</button>
 
     <admin-user-dialog id="adminUserDialog" ref="adminUserDialog"></admin-user-dialog>
+    <confirm-dialog id="confirm"
+                    ref="confirmDialog"></confirm-dialog>
   </div>
 
 </template>
-<script src="./approvers.js"></script>
-<style lang="scss" src="./approvers.scss"></style>
+<script src="./users.js"></script>
+<style lang="scss" src="./users.scss"></style>

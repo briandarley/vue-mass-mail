@@ -23,14 +23,14 @@
       </div>
       <div class="col">
         <div class="col text-center">
-
+          
           <a href="javascript:void(0);" type="button" class="btn btn-labeled btn-light text-dark" v-if="nextChild()!==null && !model.isNew" @click="save">
             <span class="btn-label "><i class="fa fa-save"></i></span> Save
           </a>
         </div>
       </div>
       <div class="col">
-        <a href="javascript:void(0);" type="button" class="btn btn-labeled btn-primary text-light float-right" v-if="nextChild()==null">
+        <a href="javascript:void(0);" type="button" class="btn btn-labeled btn-primary text-light float-right" v-if="nextChild()==null" @click="submitForReview">
           <span class="btn-label "><i class="fa fa-paper-plane"></i></span> Complete
         </a>
         <a href="javascript:void(0);" class="btn btn-primary float-right" @click="next" v-if="nextChild()!==null"><i class="fa fa-chevron-right"></i> </a>

@@ -18,9 +18,9 @@ export default function isInRole() {
       }
       
       el.hidden = isHidden;
-
-      //TODO we may also want to hide if the user is approver but not applicable approver for the target audience?
       
+      //TODO we may also want to hide if the user is approver but not applicable approver for the target audience?
+
     }
   }
 }

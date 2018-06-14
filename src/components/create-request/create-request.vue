@@ -4,7 +4,7 @@
     <h6 v-if="model.isNew" class="text-primary">Create Request</h6>
     <h6 v-else>Edit Request {{model.id}} - {{model.subject}}</h6>
 
-    <create-request-nav class="nav-request-nav"></create-request-nav>
+    <create-request-nav class="nav-request-nav" :model="model"></create-request-nav>
 
 
 
@@ -24,7 +24,7 @@
       <div class="col">
         <div class="col text-center">
           
-          <a href="javascript:void(0);" type="button" class="btn btn-labeled btn-light text-dark" v-if="nextChild()!==null && !model.isNew" @click="save">
+          <a href="javascript:void(0);" type="button" class="btn btn-labeled btn-light text-dark" v-if="nextChild()!==null && !model.isNew" @click="save(null,true, true)">
             <span class="btn-label "><i class="fa fa-save"></i></span> Save
           </a>
         </div>

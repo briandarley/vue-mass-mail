@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import injector from 'vue-inject'
 import router from './router'
+
 // app_start will load anything that can be injected into your application
 import './app_start';
 
@@ -19,18 +20,21 @@ Vue.config.productionTip = false
 // register the injector with Vue
 Vue.use(injector);
 
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   components: {
-     App
+    App
   },
   template: '<div><App v-bind:currentRoute="currentRoute"/><vue-toastr ref="toastr"></vue-toastr></div>',
   data() {
     return {
       currentRoute: "Information"
-  }
+
+    }
   },
   created: function() {
     this.currentRoute = router.currentRoute.name;
@@ -44,7 +48,8 @@ new Vue({
     this.$refs.toastr.defaultPosition = 'toast-bottom-right';
     this.$refs.toastr.defaultTimeout = 3000;
   }
-  
-  
 
-})
+
+});
+
+

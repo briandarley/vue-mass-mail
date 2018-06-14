@@ -5,7 +5,7 @@
       <div class="col-md-8  form-group">
         <label class="mr-2">Filter</label>
         <div class="input-group-append ">
-          <input type="text" class="form-control col-10" v-model="textFilter" placeholder="Request Id, Onyen, First Name, Last Name, Subject" @keydown="clearSearchRequest" />
+          <input type="text" class="form-control col-10" v-model="textFilter" placeholder="Request Id, Subject, Onyen" @keydown="clearSearchRequest" />
           <span class="input-group-text" @click="textFilter = ''"><i class="fa fa-remove"></i></span>
         </div>
         </div>

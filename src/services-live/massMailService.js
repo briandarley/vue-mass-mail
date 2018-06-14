@@ -12,20 +12,20 @@ function massMailService(apiUrlBuilder, httpHandlerService, userService, moment,
     async getCurrentMassMailById(id) {
       const handler = await httpHandlerService.get();
       const responses = await Promise.all([handler.get(`messages/${id}`), handler.get(`messages/${id}/comments`)]);
-      
+
 
       this.model = responses[0].data;
 
       const comments = responses[1].data;
 
       if (comments) {
-        
+
         this.model.comments = comments
           .filter(c => c.commentTypeCode === "INITIAL_AUTH_COMMENT")
           .map(c => c.comment)[0];
       }
 
-      
+
       return this.model;
     },
     async getRecords(criteria) {
@@ -40,7 +40,7 @@ function massMailService(apiUrlBuilder, httpHandlerService, userService, moment,
       params = params.replace(/\&$/, "");
 
       const responses = await handler.get(`messages?${params}`);
-      
+
       return responses.data;
 
 
@@ -59,7 +59,7 @@ function massMailService(apiUrlBuilder, httpHandlerService, userService, moment,
       const actionHistoryRequest = handler.get(`actions/${messageId}`);
 
       const data = await Promise.all([actionHistoryRequest, nameMappingsRequest]);
-      
+
       const actionHistory = data[0].data;
       const nameMappings = data[1].data;
 
@@ -67,16 +67,16 @@ function massMailService(apiUrlBuilder, httpHandlerService, userService, moment,
 
         var name = nameMappings.find(d => d.onyen === c.createUser).name;
 
-        return Object.assign({ name: name }, { date: c.createDate, action: c.actionCode, user: c.createUser});
+        return Object.assign({ name: name }, { date: c.createDate, action: c.actionCode, user: c.createUser });
 
       });
       return response;
     },
-    
+
     async delete(massMailId) {
       const handler = await httpHandlerService.get();
       const user = await userService.get();
-      
+
       await handler.delete(`user-messages/${user.profile.name}/${massMailId}`);
 
     },
@@ -87,33 +87,55 @@ function massMailService(apiUrlBuilder, httpHandlerService, userService, moment,
       };
       try {
         const handler = await httpHandlerService.get();
-        
+
 
         pendingMessages = await handler.get(`user-messages/${user.profile.sub}`);
-        
+
       } catch (e) {
         if (e.message.indexOf("400") > -1) {
           return pendingMessages;
         }
         throw e;
       }
-      
+
       return pendingMessages.data;
 
     },
-    async save() {
+    async save(skipValidation) {
+
       const handler = await httpHandlerService.get();
+      
+      try {
+        if (!this.model.id) {
+          this.model = Object.assign(this.model, { skipValidation: skipValidation });
 
 
-      if (!this.model.id) {
-        const result = await handler.post("messages", this.model);
-        this.model.id = result.data.id;
-        this.model.author = result.data.author;
-      } else {
-        await handler.put("messages/" + this.model.id, this.model);
-        
+          const result = await handler.post("messages", this.model);
+          this.model.id = result.data.id;
+          this.model.author = result.data.author;
+          this.model.isNew = false;
+          this.model.status = result.data.status;
+          return result.data;
+        } else {
+
+          
+          if (!this.model.status || this.model.status === "SAVED") {
+            this.model.status = "CREATED";
+          }
+
+          this.model = Object.assign(this.model, { skipValidation: skipValidation });
+
+          const result = await handler.put("messages/" + this.model.id, this.model);
+          this.model.isNew = false;
+          return result.data;
+        }
+      } catch (e) {
+        console.log(e);
+        throw e;
       }
-      this.model.isNew = false;
+
+
+
 
     },
 
@@ -128,7 +150,7 @@ function massMailService(apiUrlBuilder, httpHandlerService, userService, moment,
         actionCode: 'DENIED_STUDENTS',
         comment: comment
       };
-      
+
 
       const result = await handler.put(`actions/${massMailId}`, model);
       return result;
@@ -168,6 +190,7 @@ function massMailService(apiUrlBuilder, httpHandlerService, userService, moment,
     },
 
     async approveEmployeesRequest(massMailId) {
+
       const handler = await httpHandlerService.get();
 
       const model = {
@@ -180,6 +203,11 @@ function massMailService(apiUrlBuilder, httpHandlerService, userService, moment,
       return result;
     },
 
+    async copy(massMailId) {
+      const handler = await httpHandlerService.get();
+      const result = await handler.post(`messages/${massMailId}/copy`);
+      return result.data;
+    },
     initializeModel() {
       this.model = {
         isNew: true,
@@ -197,7 +225,9 @@ function massMailService(apiUrlBuilder, httpHandlerService, userService, moment,
         messageId: this.model.id,
         actionCode: 'CREATED'
       };
-      await handler.put(`actions/${this.model.id}`, model);
+      const response = await handler.put(`actions/${this.model.id}`, model);
+      
+      this.model.status = response.data;
       return true;
     }
 

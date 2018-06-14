@@ -1,0 +1,146 @@
+@import "variables";
+
+
+html, body {
+  height: 100%; /*font-size: .9em;*/
+}
+ 
+ ::placeholder {
+   opacity: .4 !important;
+ }
+ .main {
+   width: auto;
+ }
+ .sidebar {
+   border-right: 1px dashed $carolina-blue;
+ }
+ select.form-control, input[type="text"] {
+   display: inline-block;
+ }
+ .btn-label {
+   position: relative;
+   left: -12px;
+   display: inline-block;
+   padding: 6px 12px;
+   background: rgba(0,0,0,0.15);
+   border-radius: 3px 0 0 3px;
+ }
+ .btn-sm .btn-label {
+   padding: 3px 8px;
+   left: -8px;
+ }
+ .btn-labeled {
+   padding-top: 0;
+   padding-bottom: 0;
+ }
+ .btn-labeled.btn {
+   margin-bottom: 10px;
+ }
+ .validation-error h3 {
+   font-size: 5em;
+   opacity: .3;
+   position: absolute;
+   top: 0px;
+   left: 40px;
+ }
+ .validation-error .message {
+   display: block;
+   margin-left: 120px;
+ }
+
+.header {
+  background: #efefe7 url(assets/img/header-bg_v2.jpg) no-repeat center top;
+  height: 200px;
+}
+
+  .header .container {
+    position: relative;
+  }
+
+
+.login-status ul, .login-status ul li, .site-menu ul, .site-menu ul li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+  .login-status ul li {
+    float: left;
+    margin-left: 10px;
+  }
+
+.login-status i {
+  color: #f5ca76;
+}
+
+.site-menu {
+  font-family: verdana, geneva, Arial, Helvetica, sans-serif;
+  height: 40px;
+  position: relative;
+  top: 130px;
+  margin-left: 75px;
+  font-size: .8em;
+}
+
+
+  .site-menu a {
+    text-decoration: none;
+  }
+
+  .site-menu li {
+    cursor: pointer;
+    color: #9e9e91;
+    width: 120px;
+  }
+
+    .site-menu li:hover a {
+      color: #369;
+      font-weight: bold;
+    }
+
+    .site-menu li.active {
+      background: #fff;
+      border-top: 1px solid #c0c0c0;
+      border-right: 1px solid #c0c0c0;
+      border-left: 1px solid #c0c0c0;
+    }
+
+      .site-menu li.active a {
+        color: #369;
+        font-weight: bold;
+      }
+
+.top-title {
+  position: absolute;
+  right: 100px;
+  top: 50px;
+  color: #ffffff;
+}
+
+  .top-title h1, .top-title h3, .top-title h5 {
+    font-size: 1em;
+  }
+
+  .top-title h1 {
+    text-align: right;
+    font-size: 1.3em;
+  }
+
+  .top-title h3, .top-title h5 {
+    text-align: center;
+  }
+
+  .top-title h5 {
+    font-style: italic;
+    font-size: .8em;
+  }
+
+.main-page-component {
+  position: relative;
+  background: #fff;
+  width: 960px;
+  margin-top: -10px;
+}
+
+
+

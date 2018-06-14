@@ -6,4 +6,4 @@ import "./childRouteService.js";
 import "./dialogService.js";
 import "./configurationReaderService.js";
 import "./validationServices.js";
-
+import "./localStorageService.js";

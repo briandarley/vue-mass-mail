@@ -129,10 +129,10 @@ export default class MessageSummary extends Vue {
 
 
     if (this.model.targetEmployee) {
-      response += `, <br/><span class='font-weight-bold'>Employee Criteria ${this.model.targetEmployee}</span>`;
+      response += `, <br/><span>Employee Criteria ${this.model.targetEmployee}</span>`;
     }
 
-    return response;
+    return `<span class="font-weight-bold  align-self-center">${response}</span>`;
   }
 
   onSendTestMessage() {

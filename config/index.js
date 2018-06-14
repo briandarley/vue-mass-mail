@@ -43,7 +43,9 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: './',
+    //BD: changed because routing wasn't functioning in PROD because of URL rewrite
+    //assetsPublicPath: './',
+    assetsPublicPath: process.env.BASE_PATH,
 
     /**
      * Source Maps

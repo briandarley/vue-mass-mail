@@ -89,6 +89,10 @@ export default class AudienceCriteria extends Vue {
       this.audienceSize = await this._getCalculatedTargetAudienceCount();
     }
 
+    if (this.model.targetPopulation === "STUDENTS") {
+      this.model.targetEmployee = "";
+    }
+
 
     const easingFn = function (t, b, c, d) {
       const ts = (t /= d) * t;

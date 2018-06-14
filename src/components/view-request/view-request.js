@@ -100,6 +100,27 @@ export default class ViewRequest extends Vue {
       this.toastService.error("Failed to update record");
     } 
   }
+  async onConfirmCopy(id) {
+    try {
+      this.spinnerService.show();
+      const newId = await this.massMailService.copy(id);
+      this.toastService.success("Successfully copied MassMail record. The record id is " + newId);
+
+      this._initializeConfirmNavigateToNewMessage(newId);
+      this.dialogService.show();
+
+
+    } catch (e) {
+      console.log(e);
+      this.toastService.error("Failed to copy record");
+    } finally {
+      this.spinnerService.hide();
+    }
+  }
+  async onConfirmNavigate(id) {
+    this.$router.push(`/create-request/${id}/basic-information`);
+  }
+
   async onFilter(text, status) {
     
     if (!status) {
@@ -186,6 +207,24 @@ export default class ViewRequest extends Vue {
     this.dialogService.confirmResponse = this.onCancelMassMail;
 
   }
+  _initializeConfirmNavigateToNewMessage(id) {
+    this.dialogService.initialize(this.$refs.confirmCancel);
+    this.dialogService.title = "Go to record?"
+    this.dialogService.message = `<div class="validation-info">
+          <h3 class="mr-2 text-warning d-inline-block"><i class="fa fa-exclamation-triangle"></i> </h3>
+          <span class="message">A new record was created, would you like to navigate to this record now?<br/><br/></span></div>`;
+    this.dialogService.confirmResponse = () => { this.onConfirmNavigate(id); };
+
+  }
+  _initializeConfirmCopyDialog(id) {
+    this.dialogService.initialize(this.$refs.confirmCancel);
+    this.dialogService.title = "Confirm Copy?"
+    this.dialogService.message = `<div class="validation-error">
+          <h3 class="mr-2 text-warning d-inline-block"><i class="fa fa-exclamation-triangle"></i> </h3>
+          <span class="message">Do you want to create a new MassMail record from this record?<br/><br/></span></div>`;
+    this.dialogService.confirmResponse = () => { this.onConfirmCopy(id); };
+
+  }
 
   _initializeSendMessageDialog(id) {
     this.dialogService.initialize(this.$refs.sendMessage);
@@ -250,6 +289,11 @@ export default class ViewRequest extends Vue {
     this._initializeSendMessageDialog(id);
     
     this.$refs.sendMessage.show(record);
+  }
+
+  copyMessage(id) {
+    this._initializeConfirmCopyDialog(id);
+    this.dialogService.show();
   }
 
   async created() {

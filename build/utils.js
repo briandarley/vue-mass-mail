@@ -1,16 +1,17 @@
 'use strict'
-const path = require('path')
-const config = require('../config')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const packageConfig = require('../package.json')
+const path = require('path');
+const config = require('../config');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const packageConfig = require('../package.json');
+
 
 exports.assetsPath = function (_path) {
-  
+
   const assetsSubDirectory = process.env.NODE_ENV === 'production'
     ? config.build.assetsSubDirectory
-    : config.dev.assetsSubDirectory
+    : config.dev.assetsSubDirectory;
   //console.log(path.posix.join(assetsSubDirectory, _path));
-  return path.posix.join(assetsSubDirectory, _path)
+  return path.posix.join(assetsSubDirectory, _path);
 }
 
 exports.cssLoaders = function (options) {
@@ -37,10 +38,12 @@ exports.cssLoaders = function (options) {
     if (loader) {
       loaders.push({
         loader: loader + '-loader',
-        options: Object.assign({}, loaderOptions, {
-          sourceMap: options.sourceMap
-        })
-      })
+        options: Object.assign({},
+          loaderOptions,
+          {
+            sourceMap: options.sourceMap
+          })
+      });
     }
 
     // Extract CSS when that option is specified
@@ -51,7 +54,7 @@ exports.cssLoaders = function (options) {
         fallback: 'vue-style-loader'
       })
     } else {
-      return ['vue-style-loader'].concat(loaders)
+      return ['vue-style-loader'].concat(loaders);
     }
   }
 
@@ -73,14 +76,14 @@ exports.styleLoaders = function (options) {
   const loaders = exports.cssLoaders(options)
 
   for (const extension in loaders) {
-    const loader = loaders[extension]
+    const loader = loaders[extension];
     output.push({
       test: new RegExp('\\.' + extension + '$'),
       use: loader
-    })
+    });
   }
 
-  return output
+  return output;
 }
 
 exports.createNotifierCallback = () => {

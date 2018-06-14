@@ -5,3 +5,8 @@ http-server
 npm run dev
 //Create dist
 npm run build
+
+
+After executing
+npm run build, update index.html with the following base tag
+<base href="/client/massmail/"></base>

@@ -17,8 +17,32 @@ export default class CreateRequest extends Vue {
   model = {
     isNew: true
   };
+  oldModel = {};
+
+  copyModelObjec() {
+
+    for (let k in this.model) {
+      this.oldModel[k] = this.model[k];
+    }
+
+    delete this.oldModel.errors;
+  }
+  hasChanges() {
+    if (this.model.isNew) return false;
+
+    let _hasChanges = false;
+
+    for (let k in this.model) {
+      if (k === "errors") continue;
+      if (this.oldModel[k] !== this.model[k]) {
+        _hasChanges = true;
+      }
+    }
+
+    return _hasChanges;
 
 
+  }
 
   nextChild() {
     return this.childRouteService.getNextChildRoute();
@@ -43,8 +67,6 @@ export default class CreateRequest extends Vue {
     const $ = this.$;
     $(this.model).trigger("validate");
 
-
-
     if (this.model.errors && this.model.errors.length > 0) {
       this._initializeValidationMessageDialog();
 
@@ -52,16 +74,23 @@ export default class CreateRequest extends Vue {
 
       return;
     }
+
     if (this.model.isNew && !this.model.saved) {
+      this.copyModelObjec();
       this._initializeConfirmFirstSaveDialog();
-
       this.dialogService.show();
-
       return;
-
-
-
     }
+
+    if (this.hasChanges()) {
+      this.copyModelObjec();
+      this._initializeConfirmSubsequentSaveDialog();
+      this.dialogService.show();
+      return;
+    }
+
+    this.copyModelObjec();
+
 
     this._navigateToNextRoute();
   }
@@ -86,7 +115,7 @@ export default class CreateRequest extends Vue {
           <h3 class="mr-2 text-warning d-inline-block"><i class="fa fa-exclamation-triangle"></i> </h3>
           <span class="message">Validation errors detected on form. Please correct missing or invalid errors before proceeding.</span>
       </div>`;
-
+    this.dialogService.confirmResponse = () => { };
   }
   _initializeModelErrorMessageDialog(id) {
     this.dialogService.initialize(this.$refs.messageDialog);
@@ -96,6 +125,19 @@ export default class CreateRequest extends Vue {
            <span class="message">The service was unable to locate MassMail ${id}. <br/>
           The application will now redirect you to the information page where you may create a new request.</span>
       </div>`;
+  }
+  _initializeConfirmSubsequentSaveDialog() {
+    this.dialogService.initialize(this.$refs.confirmDialog);
+    this.dialogService.title = "Confirm Save?";
+    this.dialogService.message = `<div class="validation-error">
+          <h3 class="mr-2 text-success d-inline-block"><i class="fa fa-exclamation-circle"></i> </h3>
+          <span class="message">Changes were made to this request, Would you like to persist your changes?.</span>`;
+    this.dialogService.confirmResponse = () => {
+      this.save(this._navigateToNextRoute.bind(this), true, false);
+    }
+    this.dialogService.declineResponse = () => {
+      this._navigateToNextRoute();
+    }
   }
   _initializeConfirmFirstSaveDialog() {
     this.dialogService.initialize(this.$refs.confirmDialog);
@@ -115,7 +157,7 @@ export default class CreateRequest extends Vue {
           <div class="message">
             <p>Submit MassMail for Review?
               <br/>
-              No further edits will be permitted once submitted for review.</p>
+              This request will be forwarded to the appropriate reviewers.</p>
             
           </div>`;
     this.dialogService.confirmResponse = this.onSubmitForReview;
@@ -125,23 +167,29 @@ export default class CreateRequest extends Vue {
   }
 
   async onSubmitForReview() {
-    
+
     try {
       this.spinnerService.show();
-      await this.massMailService.submitForReview();
-      this.toastService.success("Successfully submitted MassMail.");
-      this.$router.push('/information/');
+      
+      const success = await this.save(null, false,false);
+      if (success) {
+        await this.massMailService.submitForReview();
+        this.toastService.success("Successfully submitted MassMail.");
+        this.$router.push('/information/');
+      }
       this.spinnerService.hide();
 
     } catch (e) {
       this.toastService.error("Failed to submit MassMail");
+      
     }
-    
-    
+
+
   }
 
   async loadMassMail() {
     this.model = this.massMailService.model;
+    this.copyModelObjec();
 
     if (!this.id) {
       return;
@@ -152,7 +200,7 @@ export default class CreateRequest extends Vue {
     try {
 
       this.model = await this.massMailService.getCurrentMassMailById(this.id);
-      
+      this.copyModelObjec();
       this.toastService.success("Successfully Retrieved Record");
     } catch (e) {
       this._initializeModelErrorMessageDialog(this.id);
@@ -225,41 +273,47 @@ export default class CreateRequest extends Vue {
     this.loaded = true;
 
   }
-  async save() {
+  async save(fn, showToast, skipValidation) {
     this.spinnerService.show();
 
     const isNew = this.model.isNew;
     try {
-      if (!this.model.sendFrom) {
-        this.model.sendFrom = "no_reply@unc.edu";
-      }
-      if (!this.model.replyTo) {
-        this.model.replyTo = "no_reply@unc.edu";
-      }
-
-      //this.massMailService.model = this.model;
-
-
-      await this.massMailService.save();
-
-      //this.model = this.massMailSearchService.model;
+      
+      await this.massMailService.save(skipValidation);
+      
       this.model = this.massMailService.model;
 
+      this.model.isNew = false;
 
+      let message = "MassMail successfully saved, the MassMail ID is " + this.model.id;
       if (isNew) {
         this._navigateToNextRoute();
-        this.toastService.success("MassMail successfully saved, the MassMail ID is " + this.model.id);
       } else {
-        this.toastService.success("Successfully saved record");
+        message = "Successfully saved record";
+       
       }
-
-
+      if (showToast) {
+        this.toastService.success(message);
+      }
+      return true;
     } catch (e) {
-      console.log(e);
-      this.toastService.error("Failed to save Mass Mail record");
+      
+      console.log(e.response.data);
+      if (e.response) {
+        this.toastService.error("Failed to save Mass Mail record " + e.response.data.error);
+      } else {
+        this.toastService.error("Failed to save Mass Mail record");
+      }
+      
+    
     }
-
-    this.spinnerService.hide();
+    finally {
+      if (fn && typeof fn === "function") {
+        fn();
+      }
+      this.spinnerService.hide();
+    }
+    
 
 
   }
@@ -269,16 +323,8 @@ export default class CreateRequest extends Vue {
 
   submitForReview() {
     this._initializeConfirmCompleteDialog();
-    this.$refs.confirmDialog.show();
+    this.dialogService.show();
   }
 
-  test() {
-    this.save();
-    //let $ = this.$;
 
-
-    //$(this.model).trigger("validate")
-    //$("#basic-information").validator();
-    
-  }
 }

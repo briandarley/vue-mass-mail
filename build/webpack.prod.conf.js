@@ -62,17 +62,30 @@ const webpackConfig = merge(baseWebpackConfig, {
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: config.build.index,
-      template: 'index.html',
+      template: 'index.production.html',
       inject: true,
       minify: {
         removeComments: true,
-        collapseWhitespace: true,
+        collapseWhitespace: false,
         removeAttributeQuotes: true
         // more options:
         // https://github.com/kangax/html-minifier#options-quick-reference
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
+    }),
+    new HtmlWebpackPlugin({  // Also generate call-back.html
+      //BD: need call-back
+      //https://github.com/jantimon/html-webpack-plugin
+      filename: 'call-back.html',
+      inject: false,
+      template: 'call-back.html'
+    }),
+    new HtmlWebpackPlugin({  // Also generate call-back.html
+      filename: 'silent-refresh.html',
+      inject: false,
+      template: 'silent-refresh.html'
+      
     }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
@@ -113,7 +126,16 @@ const webpackConfig = merge(baseWebpackConfig, {
       {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
-        ignore: ['.*']
+        ignore: ['.*', 'web.config']
+      }
+    ]),
+    // copy custom web.config, URL re-write rules
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../static'),
+        to: config.build.assetsRoot,
+        test: 'web.config'
+        //ignore: ['.*']
       }
     ])
   ]

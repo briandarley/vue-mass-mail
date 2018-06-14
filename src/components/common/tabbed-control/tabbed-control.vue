@@ -8,7 +8,12 @@
     </ul>
     <div class="tab-content pt-4">
       <div class="tab-pane container" v-for="(tab, index) in items" v-bind:class="{active: tab.active}">
-        <slot v-bind:name="'tab_' + index">{{index}}</slot>
+        <transition name="fade">
+          <slot v-bind:name="'tab_' + index"  v-if="tab.active">
+                     
+
+          </slot>
+        </transition>
       </div>
      
     </div>

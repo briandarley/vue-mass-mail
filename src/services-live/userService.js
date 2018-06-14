@@ -1,7 +1,7 @@
 import injector from 'vue-inject';
 import * as Oidc from 'oidc-client';
 
-function userService(configurationReaderService, axios, serviceEndpoint) {
+function userService(configurationReaderService, axios, serviceEndpoint, routerService, localStorageService) {
   return {
     _mgr: null,
     _user: null,
@@ -48,7 +48,9 @@ function userService(configurationReaderService, axios, serviceEndpoint) {
       
       this._user = await this._mgr.getUser();
       
+      
       if (!this._user) {
+        localStorageService.set('current-path', routerService.router.history.current.path);
         this.login();
       }
 
@@ -109,4 +111,4 @@ function userService(configurationReaderService, axios, serviceEndpoint) {
   }
 
 }
-injector.service('userService', ['configurationReaderService', 'axios','serviceEndpoint'], userService);
+injector.service('userService', ['configurationReaderService', 'axios', 'serviceEndpoint', 'routerService','localStorageService'], userService);

@@ -79,7 +79,7 @@
               <div class="col-md-5 text-right pt-2">
                 <label>Sending Criteria</label>
               </div>
-              <div class="col-md-7" v-html="getAudienceCriteria()"></div>
+              <div class="col-md-7 align-self-center" v-html="getAudienceCriteria()"></div>
             </div>
           </div>
         </div>

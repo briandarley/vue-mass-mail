@@ -8,7 +8,7 @@ import MessageContents from '@/components/create-request/steps/message-contents/
 import MessageSummary from '@/components/create-request/steps/message-summary/message-summary.vue';
 import TemplateSelection from '@/components/create-request/steps/template-selection/template-selection.vue';
 import ViewRequest from '@/components/view-request/view-request.vue';
-
+import injector from 'vue-inject';
 import CallBack from '@/components/login/call-back.vue';
 
 
@@ -19,18 +19,24 @@ import Administration from '@/components/administration/administration.vue'
 
 Vue.use(Router);
 
+
+
+
+
 const router = new Router({
   mode: 'history',
+  //BD: Added because of routing issues in PROD
+  base: process.env.BASE_PATH,
   routes: [
     
-    {
-      path: '/call-back',
-      name: 'CallBack',
-      title: 'Call Back',
-      component: CallBack,
-      icon: 'fa-unlock',
-      navigable: false
-    },
+    //{
+    //  path: '/call-back',
+    //  name: 'CallBack',
+    //  title: 'Call Back',
+    //  component: CallBack,
+    //  icon: 'fa-unlock',
+    //  navigable: false
+    //},
     {
       path: '/information',
       name: 'Information',
@@ -148,6 +154,13 @@ router.beforeEach((to, from, next) => {
 });
 
 
+function routerService() {
+  return {
+    router: router
+}
+}
 
+
+injector.service('routerService', '',routerService);
 //router.replace({ path: '', redirect: '/' })
 export default router

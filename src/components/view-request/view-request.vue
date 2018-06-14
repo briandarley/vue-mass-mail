@@ -54,15 +54,15 @@
                   </li>
                   <li v-is-in-role="'approver,admin'"><a href="javascript:void(0);" @click="sendMessage(record.id)"><i class="fa fa-envelope-o mr-2"></i> Send Message</a></li>
                   <li v-is-in-role="'approver'" v-is-author="record"><a href="javascript:void(0);" @click="cancel(record.id)"><i class="fa fa-times-circle mr-2"></i> Cancel</a></li>
-                  <li><a href="javascript:void(0);"><i class="fa fa-copy mr-2"></i> Copy</a></li>
-                  <li class="dropdown-submenu" v-is-in-role="'approver'" v-is-status="{record: record, status: 'CREATED',population: 'STUDENTS'}">
+                  <li><a href="javascript:void(0);" @click="copyMessage(record.id)"><i class="fa fa-copy mr-2"></i> Copy</a></li>
+                  <li class="dropdown-submenu" v-is-status="{record: record, status: 'CREATED',population: 'STUDENTS'}" v-is-approver="{role: 'student'}">
                     <a href="javascript:void(0);" tabindex="-1"><i class="fa fa-user mr-2"></i> Students Action</a>
                     <ul class="dropdown-menu">
                       <li><a href="javascript:void(0);" @click="approveMessage(record, 'student')"><i class="fa fa-thumbs-o-up mr-2"></i> Approve</a></li>
                       <li><a href="javascript:void(0);" @click="denyMessage(record, 'student')"><i class="fa fa-thumbs-o-down mr-2"></i> Deny</a></li>
                     </ul>
                   </li>
-                  <li class="dropdown-submenu" v-is-in-role="'approver'" v-is-status="{record: record, status: 'CREATED', population: 'EMPLOYEES'}">
+                  <li class="dropdown-submenu" v-is-status="{record: record, status: 'CREATED', population: 'EMPLOYEES'}" v-is-approver="{role: 'employee'}">
                     <a href="javascript:void(0);" tabindex="-1"><i class="fa fa-user-o mr-2"></i> Employee Action</a>
                     <ul class="dropdown-menu">
                       <li><a href="javascript:void(0);" @click="approveMessage(record, 'employee')"><i class="fa fa-thumbs-o-up mr-2"></i> Approve</a></li>
@@ -95,6 +95,7 @@
                         <thead class="bg-dark text-light">
                           <tr>
                             <td>Date</td>
+                            <td>Time</td>
                             <td>Type</td>
                             <td>Author</td>
                           </tr>
@@ -103,11 +104,12 @@
                           <template v-for="(comment, index) in record.comments">
                             <tr :class="{'alt': index % 2 == 0}">
                               <td>{{comment.createDate | formatDate}}</td>
+                              <td>{{comment.createDate | formatTime}}</td>
                               <td>{{comment.commentTypeCode}}</td>
                               <td>{{comment.createUser}}</td>
                             </tr>
                             <tr :class="{'alt': index % 2 == 0}">
-                              <td colspan="3">
+                              <td colspan="4">
                                 {{comment.comment}}
                               </td>
                             </tr>
@@ -120,6 +122,7 @@
                         <thead class="bg-dark text-light">
                           <tr>
                             <td>Date</td>
+                            <td>Time</td>
                             <td>Action</td>
                             <td>Performed By</td>
                             <td>Name</td>
@@ -129,6 +132,7 @@
                         <tbody>
                           <tr v-for="(item, index) in record.history" :class="{'alt': index % 2 == 0}">
                             <td>{{item.date | formatDate}}</td>
+                            <td>{{item.date | formatTime}}</td>
                             <td>{{item.action}}</td>
                             <td>{{item.user}}</td>
                             <td>{{item.name}}</td>
